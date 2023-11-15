@@ -1,4 +1,5 @@
 app/libs/*
+!app/libs
 venv
 *.pyc
 __pycache__
