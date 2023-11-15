@@ -1,0 +1,28 @@
+<RCC>
+  <qresource prefix="/">
+    <file>images/app_icon_houdini.png</file>
+    <file>images/app_icon_houdini_disabled.png</file>
+    <file>images/app_icon_maya.png</file>
+    <file>images/app_icon_maya_disabled.png</file>
+    <file>images/app_icon_nuke.png</file>
+    <file>images/app_icon_nuke_disabled.png</file>
+    <file>images/app_icon_shotgun.png</file>
+    <file>images/app_icon_shotgun_disabled.png</file>
+    <file>images/app_icon_shotgun32.png</file>
+    <file>images/icon_folder_disabled.png</file>
+    <file>images/icon_folder_dropdown.png</file>
+    <file>images/nk_renderSetupAsset_icon.png</file>
+    <file>images/nk_renderSetupAsset_icon_disabled.png</file>
+    <file>images/plus.png</file>
+    <file>images/plus_disbaled.png</file>
+    <file>images/settings_disabled.png</file>
+    <file>images/settings_enabled.png</file>
+    <file>images/sg_disabled_liked.png</file>
+    <file>images/sg_disabled_unliked.png</file>
+    <file>images/sg_linked.png</file>
+    <file>images/sg_unlinked.png</file>
+    <file>images/uHub_header.png</file>
+    <file>images/uHub_icon.png</file>
+    <file>images/uHub_icon32.png</file>
+  </qresource>
+</RCC>
