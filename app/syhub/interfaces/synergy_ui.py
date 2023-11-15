@@ -42,9 +42,9 @@ class Synergy(QtWidgets.QMainWindow, Ui_MainWindow):
         self.projects_cb.setCompleter(self.projects_cb.completer)
         self.projects_cb.completer.popup().setObjectName("JobSearchCompleter")
 
-        self.projects_cb.activated.connect(self.search_project)
-        self.projects_cb.completer.activated.connect(self.search_project)
-        self.projects_cb.lineEdit().returnPressed.connect(self.search_project)
+        self.projects_cb.activated.connect(self.set_project)
+        self.projects_cb.completer.activated.connect(self.set_project)
+        self.projects_cb.lineEdit().returnPressed.connect(self.set_project)
         self.projects_cb.lineEdit().textChanged.connect(self._update_project_filter)
         self.projects_cb.editTextChanged.connect(self.reset_ui)
 
@@ -52,7 +52,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_MainWindow):
         """ Set all connections to buttons
         """
         # setting completer for listWidget Sequence
-        self.listWidgetSequence.currentItemChanged.connect(self.search_sequence)
+        self.listWidgetSequence.currentItemChanged.connect(self.set_sequence)
         # setting completer for listWidget Shot
         self.listWidgetShots.currentItemChanged.connect(self.set_shot)
 
@@ -118,7 +118,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listWidgetShots.clear()
         self.listWidgetSequence.clear()
 
-    def search_project(self):
+    def set_project(self):
         self.reset_ui()
         project = str(self.projects_cb.currentText())
         self.project = project
@@ -127,13 +127,12 @@ class Synergy(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listWidgetSequence.clear()
         self.listWidgetSequence.addItems(self._project.get_sequences())
 
-    def search_sequence(self):
+    def set_sequence(self):
         sequence = str(self.listWidgetSequence.currentItem().text())
         self.sequence = sequence
         self._project.set_sequence(sequence)
         self.listWidgetShots.clear()
         self.listWidgetShots.addItems(self._project.get_shots())
-        # self.listWidgetShots.setEnabled(True)
 
     def set_shot(self):
         shot = str(self.listWidgetShots.currentItem().text())
@@ -141,6 +140,11 @@ class Synergy(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pbValidate.setEnabled(True)
 
     def validate(self):
+        """ If validate:
+                Disable UI and set Env variables
+            else:
+                Enable UI and unset Env variables
+        """
         if not self.validated_status:
             self.validated_status = True
             for btn in [self.soft_1, self.soft_2, self.soft_3,
@@ -193,4 +197,4 @@ class Synergy(QtWidgets.QMainWindow, Ui_MainWindow):
         """ Filter ComboBox Project when typing project name
         """
         self.projects_cb.pFilterModel.setFilterFixedString(str(text))
-
+        

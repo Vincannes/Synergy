@@ -18,7 +18,7 @@ class Projects(object):
 
     def __init__(self, pfs):
         self._pfs_path = pfs
-        
+
         self._pw = None
         self._project = None
         self._sequence = None
@@ -62,7 +62,9 @@ class Projects(object):
             raise NoShotsFoundError(self._sequence)
         return shots
 
+
 if __name__ == '__main__':
     from pprint import pprint
+
     path = Projects("D:\Desk\python\Projects")
     pprint(path.get_projects())
