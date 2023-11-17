@@ -6,21 +6,26 @@ from pprint import pprint
 from PySide2 import QtWidgets, QtGui, QtCore
 
 from app.syhub.core import launcher
+from app.syhub.core.logger import create_log
+from app.syhub.core import constants as cst
 from app.syhub.core.projects import Projects
-from app.resources.pyui.mainwindow_ui import Ui_MainWindow
+from app.syhub.interfaces import create_entity
+from app.resources.pyui.syn_hub_ui import Ui_SynHubUi
 
 
-class Synergy(QtWidgets.QMainWindow, Ui_MainWindow):
+class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
 
     def __init__(self):
         super(Synergy, self).__init__()
         self.setupUi(self)
 
+        self._logger = create_log(__file__)
+
         self.shot = None
         self.project = None
         self.sequence = None
         self.validated_status = False
-        self._project = Projects(os.environ.get("SYN_PROJECTS_FILE_STRUCTURE"))
+        self._project = Projects(os.environ.get(cst.Variables.SYN_PROJECTS_FILE_STRUCTURE))
 
         self.update_ui()
         self.set_connections()
@@ -33,20 +38,20 @@ class Synergy(QtWidgets.QMainWindow, Ui_MainWindow):
         """ Update UI (modify interface visibility, actions)
         """
         # setting completer for project search menu
-        self.projects_cb.setInsertPolicy(QtWidgets.QComboBox.NoInsert)
-        self.projects_cb.pFilterModel = QtCore.QSortFilterProxyModel(self)
-        self.projects_cb.pFilterModel.setFilterCaseSensitivity(QtCore.Qt.CaseInsensitive)
-        self.projects_cb.pFilterModel.setSourceModel(self.projects_cb.model())
-        self.projects_cb.completer = QtWidgets.QCompleter(self.projects_cb.pFilterModel, self)
-        self.projects_cb.completer.setCompletionMode(QtWidgets.QCompleter.UnfilteredPopupCompletion)
-        self.projects_cb.setCompleter(self.projects_cb.completer)
-        self.projects_cb.completer.popup().setObjectName("JobSearchCompleter")
+        self.projectsCb.setInsertPolicy(QtWidgets.QComboBox.NoInsert)
+        self.projectsCb.pFilterModel = QtCore.QSortFilterProxyModel(self)
+        self.projectsCb.pFilterModel.setFilterCaseSensitivity(QtCore.Qt.CaseInsensitive)
+        self.projectsCb.pFilterModel.setSourceModel(self.projectsCb.model())
+        self.projectsCb.completer = QtWidgets.QCompleter(self.projectsCb.pFilterModel, self)
+        self.projectsCb.completer.setCompletionMode(QtWidgets.QCompleter.UnfilteredPopupCompletion)
+        self.projectsCb.setCompleter(self.projectsCb.completer)
+        self.projectsCb.completer.popup().setObjectName("JobSearchCompleter")
 
-        self.projects_cb.activated.connect(self.set_project)
-        self.projects_cb.completer.activated.connect(self.set_project)
-        self.projects_cb.lineEdit().returnPressed.connect(self.set_project)
-        self.projects_cb.lineEdit().textChanged.connect(self._update_project_filter)
-        self.projects_cb.editTextChanged.connect(self.reset_ui)
+        self.projectsCb.activated.connect(self.set_project)
+        self.projectsCb.completer.activated.connect(self.set_project)
+        self.projectsCb.lineEdit().returnPressed.connect(self.set_project)
+        self.projectsCb.lineEdit().textChanged.connect(self._update_project_filter)
+        self.projectsCb.editTextChanged.connect(self.reset_ui)
 
     def set_connections(self):
         """ Set all connections to buttons
@@ -62,6 +67,10 @@ class Synergy(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btManagerLink.clicked.connect(self.open_datamanager)
         # Settings
         self.pushButtonSettings.clicked.connect(self.open_settings)
+
+        # Create Sequence
+        self.seqAdd.clicked.connect(create_entity.show)
+        self.shotAdd.clicked.connect(create_entity.show)
 
         # Nuke
         self.soft_1.clicked.connect(lambda: self.launch_app("launcher.nuke()"))
@@ -109,28 +118,28 @@ class Synergy(QtWidgets.QMainWindow, Ui_MainWindow):
         print("settings")
 
     def reset_ui(self):
-        for btn in [self.soft_1, self.soft_2, self.soft_3,
-                    self.soft_4, self.soft_5, self.soft_6, self.soft_7]:
-            btn.setEnabled(False)
-
+        self._enable_soft_btns(False)
+        self.listWidgetSequence.setEnabled(True)
+        self.listWidgetShots.setEnabled(True)
+        self.seqAdd.setEnabled(True)
         # self.listWidgetShots.blockSignals(True)
         # self.listWidgetSequence.blockSignals(True)
+        self.listWidgetSequence.clear()
         self.listWidgetShots.clear()
         self.listWidgetSequence.clear()
 
     def set_project(self):
         self.reset_ui()
-        project = str(self.projects_cb.currentText())
+        project = str(self.projectsCb.currentText())
         self.project = project
         self._project.set_project(project)
-        self.listWidgetSequence.setEnabled(True)
-        self.listWidgetSequence.clear()
         self.listWidgetSequence.addItems(self._project.get_sequences())
 
     def set_sequence(self):
         sequence = str(self.listWidgetSequence.currentItem().text())
         self.sequence = sequence
         self._project.set_sequence(sequence)
+        self.shotAdd.setEnabled(True)
         self.listWidgetShots.clear()
         self.listWidgetShots.addItems(self._project.get_shots())
 
@@ -147,32 +156,20 @@ class Synergy(QtWidgets.QMainWindow, Ui_MainWindow):
         """
         if not self.validated_status:
             self.validated_status = True
-            for btn in [self.soft_1, self.soft_2, self.soft_3,
-                        self.soft_4, self.soft_5, self.soft_6, self.soft_7]:
-                btn.setEnabled(True)
-            self.projects_cb.setEnabled(False)
-            self.listWidgetSequence.setEnabled(False)
-            self.listWidgetShots.setEnabled(False)
-            self.seqAdd.setEnabled(False)
-            self.shotAdd.setEnabled(False)
+            self._enable_job_ui()
             self.pbValidate.setText("Unset")
             self.set_variables()
             self.show_label_info(f"Shot set: {self.shot}")
         else:
             self.validated_status = False
-            for btn in [self.soft_1, self.soft_2, self.soft_3,
-                        self.soft_4, self.soft_5, self.soft_6, self.soft_7]:
-                btn.setEnabled(False)
-            self.projects_cb.setEnabled(True)
-            self.listWidgetSequence.setEnabled(True)
-            self.listWidgetShots.setEnabled(True)
-            self.seqAdd.setEnabled(True)
-            self.shotAdd.setEnabled(True)
+            self._enable_job_ui(False)
             self.pbValidate.setText("Set")
             self.unset_variables()
             self.show_label_info()
 
     def show_label_info(self, msg=""):
+        self._logger.info(msg)
+        self._logger.debug("msgmsgmsg")
         self.labelInfo.setText(msg)
 
     def set_variables(self):
@@ -187,14 +184,29 @@ class Synergy(QtWidgets.QMainWindow, Ui_MainWindow):
         """ From list Project in PFS (Project File Structure)
             load project name inside ComboBox Project.
         """
-        self.projects_cb.blockSignals(True)
-        self.projects_cb.clear()
+        self.projectsCb.blockSignals(True)
+        self.projectsCb.clear()
         for job in self._project.get_projects():
-            self.projects_cb.addItem(job)
-        self.projects_cb.blockSignals(False)
+            self.projectsCb.addItem(job)
+        self.projectsCb.blockSignals(False)
 
     def _update_project_filter(self, text):
         """ Filter ComboBox Project when typing project name
         """
-        self.projects_cb.pFilterModel.setFilterFixedString(str(text))
+        self.projectsCb.pFilterModel.setFilterFixedString(str(text))
         
+    def _enable_job_ui(self, status=True):
+        """ Disable or enable some Widgets from a status
+
+        """
+        self._enable_soft_btns(status)
+        self.projectsCb.setEnabled(False if status else True)
+        self.listWidgetSequence.setEnabled(False if status else True)
+        self.listWidgetShots.setEnabled(False if status else True)
+        self.seqAdd.setEnabled(False if status else True)
+        self.shotAdd.setEnabled(False if status else True)
+
+    def _enable_soft_btns(self, status=True):
+        for btn in [self.soft_1, self.soft_2, self.soft_3,
+                    self.soft_4, self.soft_5, self.soft_6, self.soft_7]:
+            btn.setEnabled(status)

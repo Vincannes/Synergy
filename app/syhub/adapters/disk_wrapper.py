@@ -13,3 +13,15 @@ class DiskWrapper(object):
         if not os.path.isdir(path):
             raise ValueError(f"Path has to be a directory {path}")
         return os.listdir(path)
+
+    @staticmethod
+    def symlink(src, dst):
+        return os.symlink(src, dst)
+
+    @staticmethod
+    def mk_dir(path, mode=0o775, recursive=True):
+        if not os.path.isdir(path):
+            if recursive:
+                os.makedirs(path, mode)
+            else:
+                os.mkdir(path, mode)
