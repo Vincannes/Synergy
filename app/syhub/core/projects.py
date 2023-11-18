@@ -5,7 +5,7 @@
 import os
 
 from app.syhub.adapters.disk_wrapper import DiskWrapper
-from app.syhub.core.path import Paths
+from app.syhub.core.path import Path
 from app.syhub.core.exceptions import (
     NoSequencesFoundError, NoProjectSetError,
     NoShotSetError, NoSequenceSetError, NoShotsFoundError
@@ -13,7 +13,7 @@ from app.syhub.core.exceptions import (
 
 
 class Projects(object):
-    path_wrapper = Paths
+    path_wrapper = Path
     disk_wrapper = DiskWrapper
 
     def __init__(self, pfs):

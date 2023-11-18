@@ -25,3 +25,7 @@ class DiskWrapper(object):
                 os.makedirs(path, mode)
             else:
                 os.mkdir(path, mode)
+
+    @staticmethod
+    def walk(path):
+        return os.walk(path)

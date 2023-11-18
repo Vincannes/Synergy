@@ -41,3 +41,18 @@ class FakeDiskWrapper(object):
                 "shots_040",
             ]
         return values
+
+    @staticmethod
+    def walk(path):
+        top, dirs, files = [], [], []
+        if path == "path/to/schema":
+            top = [path]
+            dirs = ["project"]
+            files = [".project", ".sequence", ".shot"]
+        return top, dirs, files
+
+class FakeTankWrapper(object):
+
+    def __init__(self, project_path):
+        pass
+
