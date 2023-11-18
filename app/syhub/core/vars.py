@@ -23,7 +23,7 @@ def set_vars():
     )  # Synergy/app/configs
 
     # PFS
-    os.environ[cst.Variables.SYN_PROJECTS_FILE_STRUCTURE] = "D:\\Desk\\python\\Projects"
+    os.environ[cst.Variables.SYN_PROJECT_FILE_STRUCTURE] = "D:\\Desk\\python\\Projects"
 
     # DEBUG MODE
     os.environ[cst.Variables.SYN_DEBUG] = "0"

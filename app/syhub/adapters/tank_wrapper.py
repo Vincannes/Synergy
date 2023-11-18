@@ -10,14 +10,11 @@ from app.syhub.core import constants as cst
 
 REGEX_FRAME = r"\.(\d+)\."
 
-# if not os.environ.get(cst.Variables.SYN_ROOT_PATH):
-#     os.environ[cst.Variables.SYN_ROOT_PATH] = os.path.dirname(
-#         os.path.dirname(
-#             os.path.dirname(__file__)
-#         )
-#     )
+if not os.environ.get(cst.Variables.SYN_ROOT_PATH):
+    from app.syhub.core.vars import set_vars
+    set_vars()
 
-os.environ["CONFIG_PATH"] = os.path.join(
+os.environ[cst.Variables.CONFIG_PATH] = os.path.join(
     os.environ.get(cst.Variables.SYN_ROOT_CONFIG_PATH),
     "templates.yml"
 )
