@@ -3,6 +3,7 @@
 # copyright	:Vincannes
 
 import os
+from pprint import pprint
 
 from app.syhub.core import constants as cst
 from app.syhub.core.logger import create_log
@@ -75,17 +76,19 @@ class Path(object):
         if entity_type == cst.Entities.PROJECT:
             self._project_path = sorted(converted_path)[0]
 
-        # copy dirs
-        for file in sorted(converted_path):
-            if not self.disk_wrapper.is_path_exist(file):
-                if self.disk_wrapper.is_file(file):
-                    continue
-                self.disk_wrapper.make_dir(file)
+        pprint(converted_path)
 
-        # copy files
-        for src, dst in zip(items_to_create, converted_path):
-            if self.disk_wrapper.is_file(src) and self.disk_wrapper.is_file(dst):
-                self.disk_wrapper.copy_file(src, dst)
+        # copy dirs
+        # for file in sorted(converted_path):
+        #     if not self.disk_wrapper.is_path_exist(file):
+        #         if self.disk_wrapper.is_file(file):
+        #             continue
+        #         self.disk_wrapper.make_dir(file)
+        #
+        # # copy files
+        # for src, dst in zip(items_to_create, converted_path):
+        #     if self.disk_wrapper.is_file(src) and self.disk_wrapper.is_file(dst):
+        #         self.disk_wrapper.copy_file(src, dst)
 
     def get_folders_for_entity(self, entity_type):
         _items = []
@@ -185,8 +188,8 @@ if __name__ == '__main__':
 
     path.create_file_structure("Project", "Project3")
     print("")
-    path.create_file_structure("Sequence", "sh")#, {"Project": "Project3"})
+    path.create_file_structure("Sequence", "sh")
     # print("")
-    # path.create_file_structure("Shot", "sh10", {"Project": "Project1", "Sequence": "sh"})
+    # path.create_file_structure("Shot", "sh10", {"Sequence": "sh"})
     # print("")
-    # path.create_file_structure("Task", "cmp", {"Project": "Project1", "Sequence": "sh", "Shot": "sh10"})
+    # path.create_file_structure("Task", "cmp", {"Sequence": "sh", "Shot": "sh10"})

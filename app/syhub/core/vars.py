@@ -31,6 +31,10 @@ def set_vars():
     append_to_env()
 
 
+def set_var(var_name, value):
+    os.environ[var_name] = value
+
+
 def append_to_env():
     sys.path.append(os.environ.get(cst.Variables.SYN_ROOT_PATH))
     sys.path.append(os.environ.get(cst.Variables.SYN_ROOT_APP_PATH))

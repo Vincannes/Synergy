@@ -22,14 +22,19 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         self._logger = create_log(__file__)
 
         self.shot = None
+        self.task = None
         self.project = None
         self.sequence = None
         self.validated_status = False
-        self._project = Projects(os.environ.get(cst.Variables.SYN_PROJECTS_FILE_STRUCTURE))
+        self._project = Projects(os.environ.get(cst.Variables.SYN_PROJECT_FILE_STRUCTURE))
 
         self.update_ui()
         self.set_connections()
         self.load_ui()
+
+    @property
+    def project_obj(self):
+        return self._project
 
     def load_ui(self):
         self._load_projects()
@@ -60,6 +65,8 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         self.listWidgetSequence.currentItemChanged.connect(self.set_sequence)
         # setting completer for listWidget Shot
         self.listWidgetShots.currentItemChanged.connect(self.set_shot)
+        # setting completer for listWidget Task
+        self.listWidgetTask.currentItemChanged.connect(self.set_task)
 
         # Validate Button
         self.pbValidate.clicked.connect(self.validate)
@@ -68,9 +75,10 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         # Settings
         self.pushButtonSettings.clicked.connect(self.open_settings)
 
-        # Create Sequence
-        self.seqAdd.clicked.connect(create_entity.show)
-        self.shotAdd.clicked.connect(create_entity.show)
+        # Create Entities
+        self.seqAdd.clicked.connect(lambda: create_entity.show(self, cst.Entities.SEQUENCE))
+        self.shotAdd.clicked.connect(lambda: create_entity.show(self, cst.Entities.SHOT))
+        self.taskAdd.clicked.connect(lambda: create_entity.show(self, cst.Entities.TASK))
 
         # Nuke
         self.soft_1.clicked.connect(lambda: self.launch_app("launcher.nuke()"))
@@ -136,16 +144,32 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         self.listWidgetSequence.addItems(self._project.get_sequences())
 
     def set_sequence(self):
-        sequence = str(self.listWidgetSequence.currentItem().text())
+        item = self.listWidgetSequence.currentItem()
+        if not item: return
+        sequence = str(item.text())
         self.sequence = sequence
         self._project.set_sequence(sequence)
         self.shotAdd.setEnabled(True)
         self.listWidgetShots.clear()
         self.listWidgetShots.addItems(self._project.get_shots())
+        self.listWidgetTask.clear()
 
     def set_shot(self):
-        shot = str(self.listWidgetShots.currentItem().text())
+        item = self.listWidgetShots.currentItem()
+        if not item: return
+        shot = str(item.text())
         self.shot = shot
+        self._project.set_shot(shot)
+        self.listWidgetTask.clear()
+        self.listWidgetTask.setEnabled(True)
+        self.listWidgetTask.addItems(self._project.get_tasks())
+        self.taskAdd.setEnabled(True)
+
+    def set_task(self):
+        item = self.listWidgetTask.currentItem()
+        if not item: return
+        task = str(item.text())
+        self.task = task
         self.pbValidate.setEnabled(True)
 
     def validate(self):
@@ -159,7 +183,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
             self._enable_job_ui()
             self.pbValidate.setText("Unset")
             self.set_variables()
-            self.show_label_info(f"Shot set: {self.shot}")
+            self.show_label_info(f"{self.shot} => {self.task} set.")
         else:
             self.validated_status = False
             self._enable_job_ui(False)
@@ -179,7 +203,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         pass
 
     ## PRIVATES
-    
+
     def _load_projects(self):
         """ From list Project in PFS (Project File Structure)
             load project name inside ComboBox Project.
@@ -194,7 +218,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         """ Filter ComboBox Project when typing project name
         """
         self.projectsCb.pFilterModel.setFilterFixedString(str(text))
-        
+
     def _enable_job_ui(self, status=True):
         """ Disable or enable some Widgets from a status
 
@@ -203,6 +227,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         self.projectsCb.setEnabled(False if status else True)
         self.listWidgetSequence.setEnabled(False if status else True)
         self.listWidgetShots.setEnabled(False if status else True)
+        self.listWidgetTask.setEnabled(False if status else True)
         self.seqAdd.setEnabled(False if status else True)
         self.shotAdd.setEnabled(False if status else True)
 

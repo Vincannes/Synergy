@@ -45,12 +45,6 @@ class Ui_SynHubUi(object):
 
         self.gridLayout_2.addItem(self.horizontalSpacer, 0, 2, 1, 1)
 
-        self.labelInfo = QLabel(self.centralwidget)
-        self.labelInfo.setObjectName(u"labelInfo")
-        self.labelInfo.setMaximumSize(QSize(16777215, 30))
-
-        self.gridLayout_2.addWidget(self.labelInfo, 2, 0, 1, 1)
-
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.pushButtonSettings = QPushButton(self.centralwidget)
@@ -155,6 +149,27 @@ class Ui_SynHubUi(object):
 
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
+
+        self.verticalLayout_4 = QVBoxLayout()
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.listWidgetTask = QListWidget(self.groupBox)
+        self.listWidgetTask.setObjectName(u"listWidgetTask")
+
+        self.verticalLayout_4.addWidget(self.listWidgetTask)
+
+        self.taskAdd = QPushButton(self.groupBox)
+        self.taskAdd.setObjectName(u"taskAdd")
+        self.taskAdd.setEnabled(False)
+        self.taskAdd.setMinimumSize(QSize(12, 12))
+        self.taskAdd.setMaximumSize(QSize(20, 20))
+        self.taskAdd.setIcon(icon3)
+        self.taskAdd.setIconSize(QSize(12, 12))
+        self.taskAdd.setFlat(True)
+
+        self.verticalLayout_4.addWidget(self.taskAdd)
+
+
+        self.horizontalLayout_2.addLayout(self.verticalLayout_4)
 
 
         self.gridLayout_3.addLayout(self.horizontalLayout_2, 1, 0, 1, 1)
@@ -273,6 +288,12 @@ class Ui_SynHubUi(object):
 
         self.gridLayout_2.addWidget(self.groupBox, 1, 0, 1, 4)
 
+        self.labelInfo = QLabel(self.centralwidget)
+        self.labelInfo.setObjectName(u"labelInfo")
+        self.labelInfo.setMaximumSize(QSize(16777215, 30))
+
+        self.gridLayout_2.addWidget(self.labelInfo, 2, 0, 1, 1)
+
         SynHubUi.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(SynHubUi)
         self.menubar.setObjectName(u"menubar")
@@ -291,7 +312,6 @@ class Ui_SynHubUi(object):
         SynHubUi.setWindowTitle(QCoreApplication.translate("SynHubUi", u"SynergyHUB", None))
         self.label_image.setText("")
         self.labelStudio.setText(QCoreApplication.translate("SynHubUi", u"| Studio", None))
-        self.labelInfo.setText(QCoreApplication.translate("SynHubUi", u"TextLabel", None))
         self.pushButtonSettings.setText("")
         self.groupBox.setTitle(QCoreApplication.translate("SynHubUi", u"Projects", None))
 #if QT_CONFIG(tooltip)
@@ -306,6 +326,10 @@ class Ui_SynHubUi(object):
         self.shotAdd.setToolTip(QCoreApplication.translate("SynHubUi", u"Create New Shot", None))
 #endif // QT_CONFIG(tooltip)
         self.shotAdd.setText("")
+#if QT_CONFIG(tooltip)
+        self.taskAdd.setToolTip(QCoreApplication.translate("SynHubUi", u"Create New Shot", None))
+#endif // QT_CONFIG(tooltip)
+        self.taskAdd.setText("")
         self.pbValidate.setText(QCoreApplication.translate("SynHubUi", u"Set", None))
         self.groupBox_2.setTitle("")
         self.soft_1.setText("")
@@ -315,5 +339,6 @@ class Ui_SynHubUi(object):
         self.soft_5.setText("")
         self.soft_6.setText("")
         self.soft_7.setText(QCoreApplication.translate("SynHubUi", u"PushButton", None))
+        self.labelInfo.setText(QCoreApplication.translate("SynHubUi", u"TextLabel", None))
     # retranslateUi
 

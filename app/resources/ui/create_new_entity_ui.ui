@@ -64,14 +64,20 @@
        <item>
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Is multiEntity</string>
+          <string>Padding</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="multiEntityCB">
-         <property name="text">
-          <string/>
+        <widget class="QSpinBox" name="paddingBox">
+         <property name="toolTip">
+          <string>Fix a number of digits. 0 no padding</string>
+         </property>
+         <property name="maximum">
+          <number>10</number>
+         </property>
+         <property name="value">
+          <number>3</number>
          </property>
         </widget>
        </item>
@@ -91,12 +97,12 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>ID:</string>
+        <string>Amount:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="stepSpinBox">
+      <widget class="QSpinBox" name="amountBox">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
          <horstretch>0</horstretch>
@@ -125,7 +131,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="paddingSpinBox">
+      <widget class="QSpinBox" name="stepSpinBox">
        <property name="minimum">
         <number>1</number>
        </property>

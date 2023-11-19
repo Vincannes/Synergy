@@ -50,10 +50,12 @@ class Ui_CreateNewEntity(object):
 
         self.horizontalLayout_3.addWidget(self.label_2)
 
-        self.multiEntityCB = QCheckBox(CreateNewEntity)
-        self.multiEntityCB.setObjectName(u"multiEntityCB")
+        self.paddingBox = QSpinBox(CreateNewEntity)
+        self.paddingBox.setObjectName(u"paddingBox")
+        self.paddingBox.setMaximum(10)
+        self.paddingBox.setValue(3)
 
-        self.horizontalLayout_3.addWidget(self.multiEntityCB)
+        self.horizontalLayout_3.addWidget(self.paddingBox)
 
 
         self.horizontalLayout_2.addLayout(self.horizontalLayout_3)
@@ -73,31 +75,31 @@ class Ui_CreateNewEntity(object):
 
         self.horizontalLayout_4.addWidget(self.label_4)
 
-        self.stepSpinBox = QSpinBox(CreateNewEntity)
-        self.stepSpinBox.setObjectName(u"stepSpinBox")
+        self.amountBox = QSpinBox(CreateNewEntity)
+        self.amountBox.setObjectName(u"amountBox")
         sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.stepSpinBox.sizePolicy().hasHeightForWidth())
-        self.stepSpinBox.setSizePolicy(sizePolicy)
-        self.stepSpinBox.setMinimumSize(QSize(0, 28))
-        self.stepSpinBox.setMinimum(1)
-        self.stepSpinBox.setMaximum(10)
+        sizePolicy.setHeightForWidth(self.amountBox.sizePolicy().hasHeightForWidth())
+        self.amountBox.setSizePolicy(sizePolicy)
+        self.amountBox.setMinimumSize(QSize(0, 28))
+        self.amountBox.setMinimum(1)
+        self.amountBox.setMaximum(10)
 
-        self.horizontalLayout_4.addWidget(self.stepSpinBox)
+        self.horizontalLayout_4.addWidget(self.amountBox)
 
         self.label_3 = QLabel(CreateNewEntity)
         self.label_3.setObjectName(u"label_3")
 
         self.horizontalLayout_4.addWidget(self.label_3)
 
-        self.paddingSpinBox = QSpinBox(CreateNewEntity)
-        self.paddingSpinBox.setObjectName(u"paddingSpinBox")
-        self.paddingSpinBox.setMinimum(1)
-        self.paddingSpinBox.setMaximum(100)
-        self.paddingSpinBox.setValue(10)
+        self.stepSpinBox = QSpinBox(CreateNewEntity)
+        self.stepSpinBox.setObjectName(u"stepSpinBox")
+        self.stepSpinBox.setMinimum(1)
+        self.stepSpinBox.setMaximum(100)
+        self.stepSpinBox.setValue(10)
 
-        self.horizontalLayout_4.addWidget(self.paddingSpinBox)
+        self.horizontalLayout_4.addWidget(self.stepSpinBox)
 
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
@@ -131,10 +133,12 @@ class Ui_CreateNewEntity(object):
         CreateNewEntity.setToolTip(QCoreApplication.translate("CreateNewEntity", u"shot suffix", None))
 #endif // QT_CONFIG(tooltip)
         self.label.setText(QCoreApplication.translate("CreateNewEntity", u"Type", None))
-        self.label_2.setText(QCoreApplication.translate("CreateNewEntity", u"Is multiEntity", None))
-        self.multiEntityCB.setText("")
+        self.label_2.setText(QCoreApplication.translate("CreateNewEntity", u"Padding", None))
+#if QT_CONFIG(tooltip)
+        self.paddingBox.setToolTip(QCoreApplication.translate("CreateNewEntity", u"Fix a number of digits. 0 no padding", None))
+#endif // QT_CONFIG(tooltip)
         self.suffixLineEdit.setPlaceholderText(QCoreApplication.translate("CreateNewEntity", u"Name", None))
-        self.label_4.setText(QCoreApplication.translate("CreateNewEntity", u"ID:", None))
+        self.label_4.setText(QCoreApplication.translate("CreateNewEntity", u"Amount:", None))
         self.label_3.setText(QCoreApplication.translate("CreateNewEntity", u"Step: ", None))
         self.createBtn.setText(QCoreApplication.translate("CreateNewEntity", u"create", None))
         self.closeBtn.setText(QCoreApplication.translate("CreateNewEntity", u"close", None))

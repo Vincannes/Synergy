@@ -29,7 +29,16 @@ class NoSequencesFoundError(Exception):
 class NoShotsFoundError(Exception):
     "Raised when no shots found for a given project."
 
-    def __init__(self, sequence_name):
+    def __init__(self, shot_name):
         super().__init__(
-            f"No sequence found for this sequence: {sequence_name}"
+            f"No shot found for this sequence: {shot_name}"
+        )
+
+
+class NoTasksFoundError(Exception):
+    "Raised when no shots found for a given project."
+
+    def __init__(self, task_name):
+        super().__init__(
+            f"No task found for this sequence: {task_name}"
         )
