@@ -19,6 +19,12 @@ class FakePaths(object):
 class FakeDiskWrapper(object):
 
     @staticmethod
+    def is_dir(path):
+        if any([True for a in ["text.txt"] if a in path or os.path.basename(path).startswith(".")]):
+            return False
+        return True
+
+    @staticmethod
     def list_dir(path):
         values = []
         if path == os.path.join("path", "to", "projects"):
@@ -40,4 +46,95 @@ class FakeDiskWrapper(object):
                 "shots_030",
                 "shots_040",
             ]
+        elif path == os.path.join("path", "to", "schema"):
+            return ["project", ".project"]
+        elif path == os.path.join("path", "to", "schema", "project"):
+            return ["sequence", "_admin"]
+        elif path == os.path.join("path", "to", "schema", "project", "_admin"):
+            return ["nuke", "text.txt"]
+        elif path == os.path.join("path", "to", "schema", "project", "sequence"):
+            return ["sequence", ".sequence"]
+        elif path == os.path.join("path", "to", "schema", "project", "sequence", "sequence"):
+            return ["shot", ".shot"]
+        elif path == os.path.join("path", "to", "schema", "project", "sequence", "sequence", "shot"):
+            return ["task", ".task"]
         return values
+
+    @staticmethod
+    def walk(path):
+        top, dirs, files = [], [], []
+
+        path = path.replace("/", os.sep)
+        if path == "path/to/schema".replace("/", os.sep):
+            top = "path/to/schema".replace("/", os.sep)
+            dirs = ["project"]
+            files = [".project"]
+
+        if path == "path/to/schema/project".replace("/", os.sep):
+            top = "path/to/schema/project".replace("/", os.sep)
+            dirs = ["_admin", "sequence"]
+            files = []
+
+        if path == "path/to/schema/project/_admin".replace("/", os.sep):
+            top = "path/to/schema/project/_admin".replace("/", os.sep)
+            dirs = ["nuke"]
+            files = ["text.txt"]
+
+        if path == "path/to/schema/project/_admin/nuke".replace("/", os.sep):
+            top = "path/to/schema/project/_admin/nuke".replace("/", os.sep)
+            dirs = []
+            files = []
+
+        if path == "path/to/schema/project/sequence".replace("/", os.sep):
+            top = "path/to/schema/project/sequence".replace("/", os.sep)
+            dirs = ["sequence"]
+            files = [".sequence"]
+
+        if path == "path/to/schema/project/sequence/sequence".replace("/", os.sep):
+            top = "path/to/schema/project/sequence/sequence".replace("/", os.sep)
+            dirs = ["shot"]
+            files = [".shot"]
+
+        if path == "path/to/schema/project/sequence/sequence/shot".replace("/", os.sep):
+            top = "path/to/schema/project/sequence/sequence/shot".replace("/", os.sep)
+            dirs = ["task"]
+            files = [".task"]
+
+        if path == "path/to/schema/project/sequence/sequence/.shot".replace("/", os.sep):
+            top = "path/to/schema/project/sequence/sequence/.shot".replace("/", os.sep)
+            dirs = []
+            files = []
+
+        if path == "path/to/schema/project/sequence/sequence/shot/task".replace("/", os.sep):
+            top = "path/to/schema/project/sequence/sequence/shot/task".replace("/", os.sep)
+            dirs = []
+            files = []
+
+        yield top, dirs, files
+
+        for d in dirs:
+            new_path = os.path.join(top, d)
+            for result in FakeDiskWrapper.walk(new_path):
+                yield result
+
+
+class FakeTankWrapper(object):
+
+    def __init__(self, project_path):
+        self.project_path = project_path
+
+    def get_template(self, name):
+        return name
+
+    def build_path_from_template(self, template, fields):
+        path = ""
+        if template == "sequence_root":
+            path = os.path.join(self.project_path, "sequence", fields.get("Sequence"))
+        elif template == "shot_root":
+            path = os.path.join(self.project_path, "sequence", fields.get("Sequence"), fields.get("Shot"))
+        return path
+
+
+if __name__ == '__main__':
+    for root, dirs, files in FakeDiskWrapper.walk("path/to/schema".replace("/", os.sep)):
+        print(root, dirs, files)
