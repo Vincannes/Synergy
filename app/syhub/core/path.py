@@ -3,7 +3,6 @@
 # copyright	:Vincannes
 
 import os
-import re
 
 from app.syhub.core import constants as cst
 from app.syhub.core.logger import create_log
@@ -66,50 +65,45 @@ class Path(object):
             project_path = self._project_path
 
         items_to_create = self.get_folders_for_entity(entity_type)
-        converted_path = self._convert_to(paths=items_to_create, multi_entity=_multi_entity, project_path=project_path)
-        pprint(items_to_create)
-        pprint(converted_path)
+        converted_path = self.generate_path(
+            paths=items_to_create,
+            entity_type=entity_type,
+            multi_entity=_multi_entity,
+            project_path=project_path
+        )
+
+        if entity_type == cst.Entities.PROJECT:
+            self._project_path = sorted(converted_path)[0]
+
+        # copy dirs
+        for file in sorted(converted_path):
+            if not self.disk_wrapper.is_path_exist(file):
+                if self.disk_wrapper.is_file(file):
+                    continue
+                self.disk_wrapper.make_dir(file)
+
+        # copy files
+        for src, dst in zip(items_to_create, converted_path):
+            if self.disk_wrapper.is_file(src) and self.disk_wrapper.is_file(dst):
+                self.disk_wrapper.copy_file(src, dst)
 
     def get_folders_for_entity(self, entity_type):
         _items = []
-
         for root, dirs, files in self.disk_wrapper.walk(self.schema_folder):
             for dir in dirs:
                 sub_dir_path_schema = os.path.join(root, dir)
                 has_grp = any(
-                    [True for i in os.listdir(os.path.dirname(sub_dir_path_schema)) if f".{entity_type.lower()}" == i]
+                    [True for i in self.disk_wrapper.list_dir(
+                        os.path.dirname(sub_dir_path_schema)
+                    ) if f".{entity_type.lower()}" == i]
                 )
                 if has_grp:
                     _items.append(sub_dir_path_schema)
                     _items.extend(self._get_sub_dirs(sub_dir_path_schema))
                     break
+        return list(set(_items))
 
-        return _items
-
-    def _get_sub_dirs(self, entity_path):
-        _all_dirs = []
-
-        if not os.listdir(entity_path):
-            return [entity_path]
-
-        for i in os.listdir(entity_path):
-            _this_sub_dir = os.path.join(entity_path, i)
-
-            if not os.path.isdir(_this_sub_dir) and not i.startswith("."):
-                _all_dirs.append(_this_sub_dir)
-                continue
-
-            if i.startswith(".") or any(
-                    [True for a in os.listdir(os.path.dirname(_this_sub_dir)) if a.startswith(".")]
-            ):
-                continue
-
-            _all_dirs.append(_this_sub_dir)
-            _all_dirs.extend(self._get_sub_dirs(_this_sub_dir))
-
-        return _all_dirs
-
-    def _convert_to(self, paths, multi_entity=None, project_path=""):
+    def generate_path(self, paths, entity_type=None, multi_entity=None, project_path=""):
         if multi_entity is None:
             multi_entity = {}
 
@@ -119,22 +113,31 @@ class Path(object):
         for path in paths:
             folders = path.split(os.path.sep)
             final_path_list = []
+
             for i in range(len(folders), 0, -1):
                 a = folders[0] + os.sep + folders[1]
                 current_path = os.path.join(a, *folders[2:i])
                 current_path = os.path.normpath(current_path)
-
                 if folders[:i] == schema_folder_ref:
                     break
-                if not os.path.isdir(current_path):
+
+                if not self.disk_wrapper.is_dir(current_path):
+                    final_path_list.append(folders[-1])
                     continue
 
                 has_grp = any(
-                    [True for i in os.listdir(os.path.dirname(current_path)) if i.startswith(".")]
+                    [True for i in self.disk_wrapper.list_dir(
+                        os.path.dirname(current_path)
+                    ) if i.startswith(".")]
                 )
 
                 i = i-1 if i != len(folders) else -1
                 element = folders[i]
+
+                # Skip 'project' key to avoid double 'project' if entity =/= Project
+                if entity_type and entity_type != cst.Entities.PROJECT and element == cst.Entities.PROJECT.lower():
+                    continue
+
                 if has_grp:
                     key = folders[i]
                     element = multi_entity.get(key.lower(), 'Invalid')
@@ -146,6 +149,33 @@ class Path(object):
 
         return _converted_path
 
+    def _get_sub_dirs(self, entity_path):
+        _all_dirs = []
+
+        if not self.disk_wrapper.list_dir(entity_path):
+            return [entity_path]
+
+        for i in self.disk_wrapper.list_dir(entity_path):
+            _this_sub_dir = os.path.join(entity_path, i)
+
+            if not self.disk_wrapper.is_dir(_this_sub_dir) and \
+                    not i.startswith("."):
+                _all_dirs.append(_this_sub_dir)
+                continue
+
+            if i.startswith(".") or any(
+                    [True for a in self.disk_wrapper.list_dir(
+                        os.path.dirname(_this_sub_dir)
+                    ) if a.startswith(".")]
+            ):
+                continue
+
+            _all_dirs.append(_this_sub_dir)
+            _all_dirs.extend(self._get_sub_dirs(_this_sub_dir))
+
+        return _all_dirs
+
+
 if __name__ == '__main__':
     from pprint import pprint
     path = Path("D:\\Desk\\python\\Projects\\Project1")
@@ -153,10 +183,10 @@ if __name__ == '__main__':
     # print(path.get_sequence_path("sh"))
     # print(path.get_shot_path("sh", "sh010"))
 
-    path.create_file_structure("Project", "Project1")
+    path.create_file_structure("Project", "Project3")
     print("")
-    path.create_file_structure("Sequence", "sh", {"Project": "Project1"})
-    print("")
-    path.create_file_structure("Shot", "sh10", {"Project": "Project1", "Sequence": "sh"})
-    print("")
-    path.create_file_structure("Task", "cmp", {"Project": "Project1", "Sequence": "sh", "Shot": "sh10"})
+    path.create_file_structure("Sequence", "sh")#, {"Project": "Project3"})
+    # print("")
+    # path.create_file_structure("Shot", "sh10", {"Project": "Project1", "Sequence": "sh"})
+    # print("")
+    # path.create_file_structure("Task", "cmp", {"Project": "Project1", "Sequence": "sh", "Shot": "sh10"})

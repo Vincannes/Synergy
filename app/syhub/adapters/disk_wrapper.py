@@ -3,10 +3,32 @@
 # copyright	:Vincannes
 
 import os
+import re
 import glob
+import shutil
 
 
 class DiskWrapper(object):
+
+    @staticmethod
+    def copy_file(src, dest):
+        shutil.copy(src, dest)
+
+    @staticmethod
+    def is_path_exist(path):
+        return os.path.exists(path)
+
+    @staticmethod
+    def is_dir(path):
+        return os.path.isdir(path)
+
+    @staticmethod
+    def is_file(path=""):
+        regex_pattern = r'\.[^\W_]+$'
+        if os.path.exists(path):
+            return os.path.isfile(path)
+        else:
+            return bool(re.search(regex_pattern, path))
 
     @staticmethod
     def list_dir(path):
@@ -19,12 +41,11 @@ class DiskWrapper(object):
         return os.symlink(src, dst)
 
     @staticmethod
-    def mk_dir(path, mode=0o775, recursive=True):
-        if not os.path.isdir(path):
-            if recursive:
-                os.makedirs(path, mode)
-            else:
-                os.mkdir(path, mode)
+    def make_dir(path, mode=0o775, recursive=False):
+        if recursive:
+            os.makedirs(path, mode)
+        else:
+            os.mkdir(path, mode)
 
     @staticmethod
     def walk(path):
