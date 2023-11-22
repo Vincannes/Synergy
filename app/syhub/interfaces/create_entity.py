@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # #support	:Trolard Vincent
 # copyright	:Vincannes
-import os
-import sys
+
 from pprint import pprint
 from PySide2 import QtWidgets, QtGui, QtCore
 

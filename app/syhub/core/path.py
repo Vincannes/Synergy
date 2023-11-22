@@ -15,6 +15,7 @@ class Path(object):
     tank_wrapper = TankWrapper
     disk_wrapper = DiskWrapper
     TPL_NAME_SHOT = "shot_root"
+    TPL_NAME_TASK = "shot_task_root"
     TPL_NAME_SEQUENCE = "sequence_root"
 
     def __init__(self, project_path):
@@ -51,6 +52,15 @@ class Path(object):
         }
         return self._tk.build_path_from_template(template=template, fields=fields)
 
+    def get_task_path(self, sequence, shot, task):
+        template = self._tk.get_template(self.TPL_NAME_TASK)
+        fields = {
+            "Sequence": sequence,
+            "Shot": shot,
+            "Task": task
+        }
+        return self._tk.build_path_from_template(template=template, fields=fields)
+
     def create_file_structure(self, entity_type, entity_value, multi_entity=None):
 
         _multi_entity = {
@@ -66,7 +76,7 @@ class Path(object):
             project_path = self._project_path
 
         items_to_create = self.get_folders_for_entity(entity_type)
-        converted_path = self.generate_path(
+        converted_path = self.generate_path_for_filestructure(
             paths=items_to_create,
             entity_type=entity_type,
             multi_entity=_multi_entity,
@@ -106,7 +116,7 @@ class Path(object):
                     break
         return list(set(_items))
 
-    def generate_path(self, paths, entity_type=None, multi_entity=None, project_path=""):
+    def generate_path_for_filestructure(self, paths, entity_type=None, multi_entity=None, project_path=""):
         if multi_entity is None:
             multi_entity = {}
 
@@ -151,6 +161,8 @@ class Path(object):
             _converted_path.append(final_curr_path)
 
         return _converted_path
+
+    # PRIVATES
 
     def _get_sub_dirs(self, entity_path):
         _all_dirs = []

@@ -314,7 +314,11 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
-            <widget class="QListWidget" name="listWidgetTask"/>
+            <widget class="QTreeWidget" name="treeWidgetTask">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QPushButton" name="taskAdd">

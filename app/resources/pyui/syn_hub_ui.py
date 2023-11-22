@@ -152,10 +152,11 @@ class Ui_SynHubUi(object):
 
         self.verticalLayout_4 = QVBoxLayout()
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.listWidgetTask = QListWidget(self.groupBox)
-        self.listWidgetTask.setObjectName(u"listWidgetTask")
+        self.treeWidgetTask = QTreeWidget(self.groupBox)
+        self.treeWidgetTask.setObjectName(u"treeWidgetTask")
+        self.treeWidgetTask.setEnabled(False)
 
-        self.verticalLayout_4.addWidget(self.listWidgetTask)
+        self.verticalLayout_4.addWidget(self.treeWidgetTask)
 
         self.taskAdd = QPushButton(self.groupBox)
         self.taskAdd.setObjectName(u"taskAdd")

@@ -4,6 +4,7 @@
 
 import os
 
+from app.syhub.adapters.tank_wrapper import TankWrapper
 from app.syhub.adapters.disk_wrapper import DiskWrapper
 from app.syhub.core.path import Path
 from app.syhub.core.exceptions import *
@@ -11,10 +12,12 @@ from app.syhub.core.exceptions import *
 
 class Projects(object):
     path_wrapper = Path
+    tank_wrapper = TankWrapper
     disk_wrapper = DiskWrapper
 
     def __init__(self, pfs):
         self._pfs_path = pfs
+        self._tk = self.tank_wrapper()
 
         self._pw = None
         self._task = None
@@ -80,6 +83,34 @@ class Projects(object):
             raise NoTasksFoundError(_shot_dir)
         return tasks
 
+    def get_variants(self, task):
+        """ TODO
+        """
+        if not self._project:
+            raise NoProjectSetError()
+
+        if not self._sequence:
+            raise NoSequenceSetError()
+
+        if not self._shot:
+            raise NoShotSetError()
+
+        _task_dir = self._pw.get_task_path(
+            self._sequence,
+            self._shot,
+            task
+        )
+
+        _variant = []
+        for root, dirs, files in self.disk_wrapper.walk(_task_dir):
+            if "image" in root:
+                continue
+            for f in files:
+                _path = os.path.join(root, f)
+                fields = self._tk.get_fields_from_path(_path)
+                _variant.append(fields.get("variant"))
+        return list(set(_variant))
+
     def set_project(self, project):
         self._project = project
         self._project_path = os.path.join(self._pfs_path, project)
@@ -99,4 +130,7 @@ if __name__ == '__main__':
     from pprint import pprint
 
     path = Projects("D:\Desk\python\Projects")
-    pprint(path.get_projects())
+    path.set_project("autre_name")
+    path.set_sequence("seq")
+    path.set_shot("seq_010")
+    pprint(path.get_variants("cmp"))
