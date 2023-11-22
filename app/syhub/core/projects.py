@@ -109,7 +109,7 @@ class Projects(object):
                 _path = os.path.join(root, f)
                 fields = self._tk.get_fields_from_path(_path)
                 _variant.append(fields.get("variant"))
-        return list(set(_variant))
+        return ["base", "test"]#list(set(_variant))
 
     def set_project(self, project):
         self._project = project
