@@ -93,7 +93,7 @@ class TestPath(unittest.TestCase):
         ]
         self.assertEqual(
             expected,
-            self.path.generate_path(
+            self.path.generate_path_for_filestructure(
                 paths,
                 multi_entity={"project": "Project1"},
                 project_path=self.path_project

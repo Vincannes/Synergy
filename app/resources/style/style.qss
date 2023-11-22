@@ -579,27 +579,29 @@ QTreeView {
 }
 
 QTreeView::branch:has-siblings:!adjoins-item {
-    image: url(:/icons/images/vline.png);
+    border-image: none;
 }
 
 QTreeView::branch:has-siblings:adjoins-item {
-    image: url(:/icons/images/branch-more.png);
+    border-image: none;
+    /*image: url(:/icons/images/branch-more.png);
 }
 
 QTreeView::branch:!has-children:!has-siblings:adjoins-item {
-    image: url(:/icons/images/branch-end.png);
+    border-image: none;
+    /*image: url(:/icons/images/branch-end.png);*/
 }
 
 QTreeView::branch:has-children:!has-siblings:closed,
 QTreeView::branch:closed:has-children:has-siblings {
     border-image: none;
-    image: url(:/icons/images/arrow_right.png);
+    /*image: url(:/icons/images/arrow_right.png);*/
 }
 
 QTreeView::branch:open:has-children:!has-siblings,
 QTreeView::branch:open:has-children:has-siblings  {
     border-image: none;
-    image: url(:/icons/images/arrow_down.png);
+   /* image: url(:/icons/images/arrow_down.png);*/
 }
 
 /* End Tree View/Widget */

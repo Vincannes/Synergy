@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # #support	:Trolard Vincent
 # copyright	:Vincannes
+
 import os
 from pprint import pprint
 from PySide2 import QtWidgets, QtGui, QtCore
@@ -23,9 +24,11 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
 
         self.shot = None
         self.task = None
+        self.variant = None
         self.project = None
         self.sequence = None
         self.validated_status = False
+
         self._project = Projects(os.environ.get(cst.Variables.SYN_PROJECT_FILE_STRUCTURE))
 
         self.update_ui()
@@ -58,6 +61,10 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         self.projectsCb.lineEdit().textChanged.connect(self._update_project_filter)
         self.projectsCb.editTextChanged.connect(self.reset_ui)
 
+        # Task TreeWidget
+        self.treeWidgetTask.setHeaderHidden(True)
+        self.treeWidgetTask.setColumnCount(3)
+
     def set_connections(self):
         """ Set all connections to buttons
         """
@@ -66,7 +73,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         # setting completer for listWidget Shot
         self.listWidgetShots.currentItemChanged.connect(self.set_shot)
         # setting completer for listWidget Task
-        self.listWidgetTask.currentItemChanged.connect(self.set_task)
+        self.treeWidgetTask.itemSelectionChanged.connect(self.set_task)
 
         # Validate Button
         self.pbValidate.clicked.connect(self.validate)
@@ -152,7 +159,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         self.shotAdd.setEnabled(True)
         self.listWidgetShots.clear()
         self.listWidgetShots.addItems(self._project.get_shots())
-        self.listWidgetTask.clear()
+        self.treeWidgetTask.clear()
 
     def set_shot(self):
         item = self.listWidgetShots.currentItem()
@@ -160,16 +167,22 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         shot = str(item.text())
         self.shot = shot
         self._project.set_shot(shot)
-        self.listWidgetTask.clear()
-        self.listWidgetTask.setEnabled(True)
-        self.listWidgetTask.addItems(self._project.get_tasks())
+        self.treeWidgetTask.clear()
+        self.treeWidgetTask.setEnabled(True)
+        self._add_items_to_task_widgets(self._project.get_tasks())
         self.taskAdd.setEnabled(True)
 
     def set_task(self):
-        item = self.listWidgetTask.currentItem()
-        if not item: return
-        task = str(item.text())
+        item = self.treeWidgetTask.currentItem()
+        if item is None:
+            return
+        if item.parent() is None:
+            return
+
+        task = item.parent().text(0)
+        variant = item.text(0)
         self.task = task
+        self.variant = variant
         self.pbValidate.setEnabled(True)
 
     def validate(self):
@@ -183,7 +196,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
             self._enable_job_ui()
             self.pbValidate.setText("Unset")
             self.set_variables()
-            self.show_label_info(f"{self.shot} => {self.task} set.")
+            self.show_label_info(f"{self.shot} => {self.task}  :  {self.variant} set.")
         else:
             self.validated_status = False
             self._enable_job_ui(False)
@@ -193,7 +206,6 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
 
     def show_label_info(self, msg=""):
         self._logger.info(msg)
-        self._logger.debug("msgmsgmsg")
         self.labelInfo.setText(msg)
 
     def set_variables(self):
@@ -227,7 +239,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         self.projectsCb.setEnabled(False if status else True)
         self.listWidgetSequence.setEnabled(False if status else True)
         self.listWidgetShots.setEnabled(False if status else True)
-        self.listWidgetTask.setEnabled(False if status else True)
+        self.treeWidgetTask.setEnabled(False if status else True)
         self.seqAdd.setEnabled(False if status else True)
         self.shotAdd.setEnabled(False if status else True)
 
@@ -235,3 +247,14 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         for btn in [self.soft_1, self.soft_2, self.soft_3,
                     self.soft_4, self.soft_5, self.soft_6, self.soft_7]:
             btn.setEnabled(status)
+
+    def _add_items_to_task_widgets(self, tasks):
+        items = []
+        for task in tasks:
+            item = QtWidgets.QTreeWidgetItem(self.treeWidgetTask)
+            item.setText(0, task)
+            for var in self._project.get_variants(task):
+                sub_item = QtWidgets.QTreeWidgetItem(item)
+                sub_item.setText(0, var)
+            items.append(item)
+        self.treeWidgetTask.addTopLevelItems(items)
