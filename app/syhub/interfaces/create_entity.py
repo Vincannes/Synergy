@@ -57,7 +57,6 @@ class CreateEntity(QtWidgets.QDialog, Ui_CreateNewEntity):
             _multiple_entity[cst.Entities.SEQUENCE] = self.parent.listWidgetSequence.currentItem().text()
             _multiple_entity[cst.Entities.SHOT] = self.parent.listWidgetShots.currentItem().text()
 
-        print()
         for i in range(0, _amount):
             i += 1
             entity_value = self._generate_name(_suffix, _step, i, _padding)
