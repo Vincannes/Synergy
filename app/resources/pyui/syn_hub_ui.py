@@ -127,14 +127,16 @@ class Ui_SynHubUi(object):
 
         self.horizontalLayout_2.addLayout(self.verticalLayout)
 
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.listWidgetShots = QListWidget(self.groupBox)
+        self.verticalLayout_4 = QVBoxLayout()
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.listWidgetShots = QTreeWidget(self.groupBox)
+        __qtreewidgetitem = QTreeWidgetItem()
+        __qtreewidgetitem.setText(0, u"1");
+        self.listWidgetShots.setHeaderItem(__qtreewidgetitem)
         self.listWidgetShots.setObjectName(u"listWidgetShots")
         self.listWidgetShots.setEnabled(False)
-        self.listWidgetShots.setMinimumSize(QSize(0, 0))
 
-        self.verticalLayout_2.addWidget(self.listWidgetShots)
+        self.verticalLayout_4.addWidget(self.listWidgetShots)
 
         self.shotAdd = QPushButton(self.groupBox)
         self.shotAdd.setObjectName(u"shotAdd")
@@ -145,29 +147,7 @@ class Ui_SynHubUi(object):
         self.shotAdd.setIconSize(QSize(12, 12))
         self.shotAdd.setFlat(True)
 
-        self.verticalLayout_2.addWidget(self.shotAdd)
-
-
-        self.horizontalLayout_2.addLayout(self.verticalLayout_2)
-
-        self.verticalLayout_4 = QVBoxLayout()
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.treeWidgetTask = QTreeWidget(self.groupBox)
-        self.treeWidgetTask.setObjectName(u"treeWidgetTask")
-        self.treeWidgetTask.setEnabled(False)
-
-        self.verticalLayout_4.addWidget(self.treeWidgetTask)
-
-        self.taskAdd = QPushButton(self.groupBox)
-        self.taskAdd.setObjectName(u"taskAdd")
-        self.taskAdd.setEnabled(False)
-        self.taskAdd.setMinimumSize(QSize(12, 12))
-        self.taskAdd.setMaximumSize(QSize(20, 20))
-        self.taskAdd.setIcon(icon3)
-        self.taskAdd.setIconSize(QSize(12, 12))
-        self.taskAdd.setFlat(True)
-
-        self.verticalLayout_4.addWidget(self.taskAdd)
+        self.verticalLayout_4.addWidget(self.shotAdd)
 
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_4)
@@ -327,10 +307,6 @@ class Ui_SynHubUi(object):
         self.shotAdd.setToolTip(QCoreApplication.translate("SynHubUi", u"Create New Shot", None))
 #endif // QT_CONFIG(tooltip)
         self.shotAdd.setText("")
-#if QT_CONFIG(tooltip)
-        self.taskAdd.setToolTip(QCoreApplication.translate("SynHubUi", u"Create New Shot", None))
-#endif // QT_CONFIG(tooltip)
-        self.taskAdd.setText("")
         self.pbValidate.setText(QCoreApplication.translate("SynHubUi", u"Set", None))
         self.groupBox_2.setTitle("")
         self.soft_1.setText("")
@@ -340,6 +316,6 @@ class Ui_SynHubUi(object):
         self.soft_5.setText("")
         self.soft_6.setText("")
         self.soft_7.setText(QCoreApplication.translate("SynHubUi", u"PushButton", None))
-        self.labelInfo.setText(QCoreApplication.translate("SynHubUi", u"TextLabel", None))
+        self.labelInfo.setText("")
     # retranslateUi
 

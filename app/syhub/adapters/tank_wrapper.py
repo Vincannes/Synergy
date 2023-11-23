@@ -32,11 +32,10 @@ class TankWrapper(object):
     def get_template_from_path(self, path):
         try:
             path = re.sub(REGEX_FRAME, '.%04d.', path)
+            path = path.replace("%04d", "####")
         except Exception as e:
             print(e)
             pass
-        path = path.replace("%04d", "####")
-        path = path.replace("\\", "/")  # thank you Windobe
         return self._tk.template_from_path(path)
 
     def get_template_keys(self, template):
@@ -49,13 +48,12 @@ class TankWrapper(object):
             template = self.get_template_from_path(path)
         if isinstance(template, str):
             template = self.get_template(template)
-        result_string = path.replace("\\", "/")  # thank you Windobe
         try:
-            result_string = re.sub(REGEX_FRAME, '.%04d.', result_string)
+            path = re.sub(REGEX_FRAME, '.%04d.', path)
+            path = path.replace("%04d", "####")
         except:
             pass
-        result_string = result_string.replace("%04d", "####")
-        return template.get_fields(result_string)
+        return template.get_fields(path)
 
     def get_abstract_path(self, template, fields):
         if isinstance(template, str):

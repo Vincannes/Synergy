@@ -4,7 +4,6 @@
 
 import os
 
-from app.syhub.adapters.tank_wrapper import TankWrapper
 from app.syhub.adapters.disk_wrapper import DiskWrapper
 from app.syhub.core.path import Path
 from app.syhub.core.exceptions import *
@@ -12,12 +11,10 @@ from app.syhub.core.exceptions import *
 
 class Projects(object):
     path_wrapper = Path
-    tank_wrapper = TankWrapper
     disk_wrapper = DiskWrapper
 
     def __init__(self, pfs):
         self._pfs_path = pfs
-        self._tk = self.tank_wrapper()
 
         self._pw = None
         self._task = None
@@ -64,26 +61,23 @@ class Projects(object):
             raise NoShotsFoundError(self._sequence)
         return shots
 
-    def get_tasks(self):
+    def get_tasks(self, shot):
         if not self._project:
             raise NoProjectSetError()
 
         if not self._sequence:
             raise NoSequenceSetError()
 
-        if not self._shot:
-            raise NoShotSetError()
-
         _shot_dir = self._pw.get_shot_path(
             self._sequence,
-            self._shot
+            shot
         )
         tasks = self.disk_wrapper.list_dir(_shot_dir)
         if not tasks:
             raise NoTasksFoundError(_shot_dir)
         return tasks
 
-    def get_variants(self, task):
+    def get_variants(self, shot, task):
         """ TODO
         """
         if not self._project:
@@ -92,24 +86,50 @@ class Projects(object):
         if not self._sequence:
             raise NoSequenceSetError()
 
-        if not self._shot:
-            raise NoShotSetError()
-
         _task_dir = self._pw.get_task_path(
             self._sequence,
-            self._shot,
+            shot,
             task
         )
 
-        _variant = []
+        _variants = []
         for root, dirs, files in self.disk_wrapper.walk(_task_dir):
             if "image" in root:
                 continue
             for f in files:
                 _path = os.path.join(root, f)
-                fields = self._tk.get_fields_from_path(_path)
-                _variant.append(fields.get("variant"))
-        return ["base", "test"]#list(set(_variant))
+                fields = self._pw.get_fields_from_path(_path)
+                _variants.append(fields.get("variant"))
+
+        return list(set(_variants))
+
+    def get_versions(self, shot, task, variant):
+        """ TODO
+        """
+        if not self._project:
+            raise NoProjectSetError()
+
+        if not self._sequence:
+            raise NoSequenceSetError()
+
+        _task_dir = self._pw.get_task_path(
+            self._sequence,
+            shot,
+            task
+        )
+
+        _versions = []
+        for root, dirs, files in self.disk_wrapper.walk(_task_dir):
+            if "image" in root:
+                continue
+            for f in files:
+                _path = os.path.join(root, f)
+                fields = self._pw.get_fields_from_path(_path)
+                if fields.get("variant") != variant:
+                    continue
+                _versions.append(fields.get("version"))
+
+        return list(set(_versions))
 
     def set_project(self, project):
         self._project = project
@@ -133,4 +153,6 @@ if __name__ == '__main__':
     path.set_project("autre_name")
     path.set_sequence("seq")
     path.set_shot("seq_010")
-    pprint(path.get_variants("cmp"))
+    pprint(path.get_versions("sh_010", "cmp", "base"))
+
+    # print(path._tk.get_fields_from_path("D:\\Desk\\python\\Projects\\autre_name\\sequence\\seq\\seq_010\\cmp\\nuke\\wip\\seq_010-cmp-base-v001.nk"))

@@ -257,71 +257,21 @@
           </layout>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
-            <widget class="QListWidget" name="listWidgetShots">
+            <widget class="QTreeWidget" name="listWidgetShots">
              <property name="enabled">
               <bool>false</bool>
              </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
+             <column>
+              <property name="text">
+               <string notr="true">1</string>
+              </property>
+             </column>
             </widget>
            </item>
            <item>
             <widget class="QPushButton" name="shotAdd">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>12</width>
-               <height>12</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="toolTip">
-              <string>Create New Shot</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="../resource.qrc">
-               <normaloff>:/images/plus.png</normaloff>:/images/plus.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>12</width>
-               <height>12</height>
-              </size>
-             </property>
-             <property name="flat">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QTreeWidget" name="treeWidgetTask">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="taskAdd">
              <property name="enabled">
               <bool>false</bool>
              </property>
@@ -676,7 +626,7 @@
        </size>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string/>
       </property>
      </widget>
     </item>
