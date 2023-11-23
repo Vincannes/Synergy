@@ -152,7 +152,8 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
 
     def set_sequence(self):
         item = self.listWidgetSequence.currentItem()
-        if not item: return
+        if not item:
+            return
         sequence = str(item.text())
         self.sequence = sequence
         self._project.set_sequence(sequence)
@@ -163,7 +164,8 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
 
     def set_shot(self):
         item = self.listWidgetShots.currentItem()
-        if not item: return
+        if not item:
+            return
         shot = str(item.text())
         self.shot = shot
         self._project.set_shot(shot)
@@ -196,7 +198,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
             self._enable_job_ui()
             self.pbValidate.setText("Unset")
             self.set_variables()
-            self.show_label_info(f"{self.shot} => {self.task}  :  {self.variant} set.")
+            self.show_label_info(f"{self.shot} => {self.task}  :  {self.variant}")
         else:
             self.validated_status = False
             self._enable_job_ui(False)
@@ -256,5 +258,8 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
             for var in self._project.get_variants(task):
                 sub_item = QtWidgets.QTreeWidgetItem(item)
                 sub_item.setText(0, var)
+                for version in self._project.get_versions(task, var):
+                    sub_vers_item = QtWidgets.QTreeWidgetItem(sub_item)
+                    sub_vers_item.setText(0, version)
             items.append(item)
         self.treeWidgetTask.addTopLevelItems(items)

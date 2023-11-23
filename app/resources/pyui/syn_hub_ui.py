@@ -153,6 +153,9 @@ class Ui_SynHubUi(object):
         self.verticalLayout_4 = QVBoxLayout()
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.treeWidgetTask = QTreeWidget(self.groupBox)
+        __qtreewidgetitem = QTreeWidgetItem()
+        __qtreewidgetitem.setText(0, u"1");
+        self.treeWidgetTask.setHeaderItem(__qtreewidgetitem)
         self.treeWidgetTask.setObjectName(u"treeWidgetTask")
         self.treeWidgetTask.setEnabled(False)
 

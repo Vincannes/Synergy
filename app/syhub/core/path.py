@@ -17,6 +17,9 @@ class Path(object):
     TPL_NAME_SHOT = "shot_root"
     TPL_NAME_TASK = "shot_task_root"
     TPL_NAME_SEQUENCE = "sequence_root"
+    TPL_NUKE_SCENE = "Shot_NukeScene_Work"
+    TPL_MAYA_SCENE = "Shot_MayaScene_Work"
+    TPL_HOUDINI_SCENE = "Shot_HoudiniScene_Work"
 
     def __init__(self, project_path):
         self._project_path = project_path
@@ -28,6 +31,21 @@ class Path(object):
             os.environ.get(cst.Variables.SYN_ROOT_CONFIG_PATH),
             "schema"
         )
+
+    def get_fields_from_path(self, path):
+        return self._tk.get_fields_from_path(path)
+
+    def get_nuke_scene(self, sequence, shot, task, variant):
+        template = self._tk.get_template(self.TPL_NUKE_SCENE)
+        fields = {
+            "Sequence": sequence,
+            "Shot": shot,
+            "name": shot,
+            "Task": task,
+            "variant": variant,
+            "version": "1"
+        }
+        return self._tk.build_path_from_template(template, fields)
 
     def get_sequence_dir(self):
         template = self._tk.get_template(self.TPL_NAME_SEQUENCE)
@@ -205,3 +223,5 @@ if __name__ == '__main__':
     # path.create_file_structure("Shot", "sh10", {"Sequence": "sh"})
     # print("")
     # path.create_file_structure("Task", "cmp", {"Sequence": "sh", "Shot": "sh10"})
+    print("")
+    print(path.get_nuke_scene("sh", "sh010", "cmp", "base"))
