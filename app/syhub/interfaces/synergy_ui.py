@@ -168,6 +168,8 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
             return
         if item.parent().parent() is None:
             return
+        if item.parent().parent().parent() is None:
+            return
 
         self.shot = item.parent().parent().parent().text(0)
         self.task = item.parent().parent().text(0)
