@@ -14,6 +14,7 @@ from app.syhub.core import constants
 from app.syhub.core.vars import set_vars
 from app.resources.style import style
 from app.syhub.interfaces.synergy_ui import Synergy
+from app.syhub.interfaces.synergy_soft_ui import SynSoftHub
 
 
 def run():
@@ -24,7 +25,17 @@ def run():
     sys.exit(app.exec_())
 
 
+def run_dcc():
+    app = QtWidgets.QApplication(sys.argv)
+    style.dark(app)
+    w = SynSoftHub(engine=constants.Engine.NUKE)
+    w.show()
+    sys.exit(app.exec_())
+
+
 if __name__ == '__main__':
     set_vars()
     os.environ[constants.Variables.SYN_DEBUG] = "1"
-    run()
+    # run()
+    os.environ["SYN_PROJECT_NAME"] = "autre_name"
+    run_dcc()

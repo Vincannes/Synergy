@@ -259,15 +259,10 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
-            <widget class="QTreeWidget" name="listWidgetShots">
+            <widget class="QListWidget" name="listWidgetShots">
              <property name="enabled">
               <bool>false</bool>
              </property>
-             <column>
-              <property name="text">
-               <string notr="true">1</string>
-              </property>
-             </column>
             </widget>
            </item>
            <item>

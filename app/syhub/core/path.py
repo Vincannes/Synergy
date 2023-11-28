@@ -35,7 +35,27 @@ class Path(object):
     def get_fields_from_path(self, path):
         return self._tk.get_fields_from_path(path)
 
-    def get_nuke_scene(self, sequence, shot, task, variant):
+    def get_abstract_path(self, template_name, fields):
+        template = self._tk.get_template(template_name)
+        return self._tk.get_abstract_path(template, fields)
+
+    def get_engine_scenes(self, engine="nuke", fields=None):
+        if fields is None:
+            fields = {}
+        template_name = ""
+        if engine == cst.Engine.NUKE:
+            template_name = self.TPL_NUKE_SCENE
+        elif engine == cst.Engine.MAYA:
+            template_name = self.TPL_MAYA_SCENE
+        elif engine == cst.Engine.HOUDINI:
+            template_name = self.TPL_HOUDINI_SCENE
+
+        if not template_name:
+            raise ValueError(f"No engine found: {[cst.Engine.NUKE, cst.Engine.MAYA, cst.Engine.HOUDINI]}")
+
+        return self.get_abstract_path(template_name, fields)
+
+    def get_nuke_scene(self, sequence, shot, task, variant, version):
         template = self._tk.get_template(self.TPL_NUKE_SCENE)
         fields = {
             "Sequence": sequence,
@@ -43,7 +63,7 @@ class Path(object):
             "name": shot,
             "Task": task,
             "variant": variant,
-            "version": "1"
+            "version": version
         }
         return self._tk.build_path_from_template(template, fields)
 
@@ -224,4 +244,5 @@ if __name__ == '__main__':
     # print("")
     # path.create_file_structure("Task", "cmp", {"Sequence": "sh", "Shot": "sh10"})
     print("")
-    print(path.get_nuke_scene("sh", "sh010", "cmp", "base"))
+    print(path.get_engine_scenes("dddd"))
+    # print(path.get_nuke_scene("sh", "sh010", "cmp", "base"))

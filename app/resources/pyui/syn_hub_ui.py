@@ -129,10 +129,7 @@ class Ui_SynHubUi(object):
 
         self.verticalLayout_4 = QVBoxLayout()
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.listWidgetShots = QTreeWidget(self.groupBox)
-        __qtreewidgetitem = QTreeWidgetItem()
-        __qtreewidgetitem.setText(0, u"1");
-        self.listWidgetShots.setHeaderItem(__qtreewidgetitem)
+        self.listWidgetShots = QListWidget(self.groupBox)
         self.listWidgetShots.setObjectName(u"listWidgetShots")
         self.listWidgetShots.setEnabled(False)
 

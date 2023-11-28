@@ -2,5 +2,4 @@ venv
 *.pyc
 __pycache__
 .idea
-app/libs/*
-app/libs/Tank
+#app/libs/*
