@@ -1,0 +1,12 @@
+[submodule "app/librairies/Tank"]
+	path = app/librairies/Tank
+	url = https://github.com/Vincannes/Tank.git
+	branch = dev
+[submodule "app/libs/-f"]
+	path = app/libs/-f
+	url = https://github.com/Vincannes/Tank.git
+	branch = main
+[submodule "app/libs/Tank"]
+	path = app/libs/Tank
+	url = https://github.com/Vincannes/Tank.git
+	branch = main

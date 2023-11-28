@@ -4,6 +4,7 @@
 
 import os
 
+from app.syhub.core import constants as cst
 from app.syhub.adapters.disk_wrapper import DiskWrapper
 from app.syhub.core.path import Path
 from app.syhub.core.exceptions import *
@@ -13,7 +14,9 @@ class Projects(object):
     path_wrapper = Path
     disk_wrapper = DiskWrapper
 
-    def __init__(self, pfs):
+    def __init__(self, pfs=None):
+        if pfs is None:
+            pfs = os.environ.get(cst.Variables.SYN_PROJECT_FILE_STRUCTURE)
         self._pfs_path = pfs
 
         self._pw = None
@@ -92,15 +95,16 @@ class Projects(object):
             task
         )
 
+        fields = {
+            "Sequence": self._sequence,
+            "Shot": shot,
+            "Task": task,
+            "name": shot,
+        }
         _variants = []
-        for root, dirs, files in self.disk_wrapper.walk(_task_dir):
-            if "image" in root:
-                continue
-            for f in files:
-                _path = os.path.join(root, f)
-                fields = self._pw.get_fields_from_path(_path)
-                _variants.append(fields.get("variant"))
-
+        for _path in self._pw.get_engine_scenes("nuke", fields):
+            _fields = self._pw.get_fields_from_path(_path)
+            _variants.append(_fields.get("variant"))
         return list(set(_variants))
 
     def get_versions(self, shot, task, variant):
@@ -117,18 +121,17 @@ class Projects(object):
             shot,
             task
         )
-
+        fields = {
+            "Sequence": self._sequence,
+            "Shot": shot,
+            "Task": task,
+            "name": shot,
+            "variant": variant,
+        }
         _versions = []
-        for root, dirs, files in self.disk_wrapper.walk(_task_dir):
-            if "image" in root:
-                continue
-            for f in files:
-                _path = os.path.join(root, f)
-                fields = self._pw.get_fields_from_path(_path)
-                if fields.get("variant") != variant:
-                    continue
-                _versions.append(fields.get("version"))
-
+        for _path in self._pw.get_engine_scenes("nuke", fields):
+            _fields = self._pw.get_fields_from_path(_path)
+            _versions.append(_fields.get("version"))
         return list(set(_versions))
 
     def set_project(self, project):
@@ -153,6 +156,7 @@ if __name__ == '__main__':
     path.set_project("autre_name")
     path.set_sequence("seq")
     path.set_shot("seq_010")
-    pprint(path.get_versions("sh_010", "cmp", "base"))
+    pprint(path.get_variants("seq_010", "cmp"))
+    pprint(path.get_versions("seq_010", "cmp", "test"))
 
     # print(path._tk.get_fields_from_path("D:\\Desk\\python\\Projects\\autre_name\\sequence\\seq\\seq_010\\cmp\\nuke\\wip\\seq_010-cmp-base-v001.nk"))

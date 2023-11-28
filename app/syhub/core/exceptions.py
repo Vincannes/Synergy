@@ -42,3 +42,8 @@ class NoTasksFoundError(Exception):
         super().__init__(
             f"No task found for this sequence: {task_name}"
         )
+
+
+class NoEngineSet(Exception):
+    def __init__(self):
+        super().__init__( "No engine set.")

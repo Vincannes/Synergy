@@ -23,7 +23,8 @@ os.environ[cst.Variables.CONFIG_PATH] = os.path.join(
 class TankWrapper(object):
 
     def __init__(self, project_path="D:/Desk/python/Projects"):
-        self._tk = sgtk.Tank(project_path)
+        self.project_path = project_path
+        self._tk = sgtk.Tank(self.project_path)
         self.templates = self._tk.templates()
 
     def get_template(self, name):
@@ -67,17 +68,19 @@ class TankWrapper(object):
 
 
 if __name__ == '__main__':
-    tk = TankWrapper()
+    tk = TankWrapper("D:/Desk/python/Projects/autre_name")
     template_name = "Shot_NukeRender_Work_Sequence"
     fields = {
-        "Sequence": "sh",
-        "Shot": "sh_010",
-        "version": "1",
+        "Sequence": "seq",
+        "Shot": "seq_010",
+        # "version": "1",
         "Task": "cmp",
-        "name": "sh_010",
-        "write_node": "out",
-        "colorspace": "linear",
-        "variant": "test",
-        "render_source": "nk",
-        "ext_render_nuke": "exr"
+        "name": "seq_010",
+        # "write_node": "out",
+        # "colorspace": "linear",
+        "variant": "base",
+        # "render_source": "nk",
+        # "ext_render_nuke": "exr"
     }
+    from pprint import pprint
+    pprint(tk.get_abstract_path("Shot_NukeScene_Work", fields))
