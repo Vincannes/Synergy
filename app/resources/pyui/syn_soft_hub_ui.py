@@ -83,6 +83,7 @@ class Ui_SynHubSoftUi(object):
 
         self.versionTypeTabWidget = QTabWidget(self.groupBox)
         self.versionTypeTabWidget.setObjectName(u"versionTypeTabWidget")
+        self.versionTypeTabWidget.setStyleSheet(u"QTableWidget::item { padding: 10px }")
         self.workTab = QWidget()
         self.workTab.setObjectName(u"workTab")
         self.workVerticalLayout = QVBoxLayout(self.workTab)
@@ -90,7 +91,18 @@ class Ui_SynHubSoftUi(object):
         self.workVerticalLayout.setObjectName(u"workVerticalLayout")
         self.workVerticalLayout.setContentsMargins(3, 3, 3, 3)
         self.workTableWidget = QTableWidget(self.workTab)
+        if (self.workTableWidget.columnCount() < 4):
+            self.workTableWidget.setColumnCount(4)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.workTableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.workTableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        __qtablewidgetitem2 = QTableWidgetItem()
+        self.workTableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem2)
+        __qtablewidgetitem3 = QTableWidgetItem()
+        self.workTableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
         self.workTableWidget.setObjectName(u"workTableWidget")
+        self.workTableWidget.setStyleSheet(u"QTableWidget::item { padding: 10px }")
         self.workTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.workTableWidget.setAlternatingRowColors(True)
         self.workTableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
@@ -127,7 +139,18 @@ class Ui_SynHubSoftUi(object):
         self.publishVerticalLayout.setObjectName(u"publishVerticalLayout")
         self.publishVerticalLayout.setContentsMargins(3, 3, 3, 3)
         self.publishTableWidget = QTableWidget(self.publishTab)
+        if (self.publishTableWidget.columnCount() < 4):
+            self.publishTableWidget.setColumnCount(4)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.publishTableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.publishTableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.publishTableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem6)
+        __qtablewidgetitem7 = QTableWidgetItem()
+        self.publishTableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem7)
         self.publishTableWidget.setObjectName(u"publishTableWidget")
+        self.publishTableWidget.setStyleSheet(u"QTableWidget::item { padding: 10px }")
         self.publishTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.publishTableWidget.setAlternatingRowColors(True)
         self.publishTableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
@@ -191,7 +214,11 @@ class Ui_SynHubSoftUi(object):
         self.verticalLayout.addWidget(self.assetFilterEdit)
 
         self.assetTableWidget = QTableWidget(self.assetTab)
+        if (self.assetTableWidget.columnCount() < 2):
+            self.assetTableWidget.setColumnCount(2)
         self.assetTableWidget.setObjectName(u"assetTableWidget")
+        self.assetTableWidget.setStyleSheet(u"QTableWidget::item { padding: 8px }")
+        self.assetTableWidget.setColumnCount(2)
 
         self.verticalLayout.addWidget(self.assetTableWidget)
 
@@ -206,7 +233,11 @@ class Ui_SynHubSoftUi(object):
         self.verticalLayout_4.addWidget(self.shotFilterEdit)
 
         self.shotTableWidget = QTableWidget(self.shotTab)
+        if (self.shotTableWidget.columnCount() < 2):
+            self.shotTableWidget.setColumnCount(2)
         self.shotTableWidget.setObjectName(u"shotTableWidget")
+        self.shotTableWidget.setStyleSheet(u"QTableWidget::item { padding: 8px }")
+        self.shotTableWidget.setColumnCount(2)
 
         self.verticalLayout_4.addWidget(self.shotTableWidget)
 
@@ -215,13 +246,17 @@ class Ui_SynHubSoftUi(object):
         self.recentTab.setObjectName(u"recentTab")
         self.verticalLayout_2 = QVBoxLayout(self.recentTab)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.recebtFilterEdit = QLineEdit(self.recentTab)
-        self.recebtFilterEdit.setObjectName(u"recebtFilterEdit")
+        self.recentFilterEdit = QLineEdit(self.recentTab)
+        self.recentFilterEdit.setObjectName(u"recentFilterEdit")
 
-        self.verticalLayout_2.addWidget(self.recebtFilterEdit)
+        self.verticalLayout_2.addWidget(self.recentFilterEdit)
 
         self.recentTableWidget = QTableWidget(self.recentTab)
+        if (self.recentTableWidget.columnCount() < 2):
+            self.recentTableWidget.setColumnCount(2)
         self.recentTableWidget.setObjectName(u"recentTableWidget")
+        self.recentTableWidget.setStyleSheet(u"QTableWidget::item { padding: 8px }")
+        self.recentTableWidget.setColumnCount(2)
 
         self.verticalLayout_2.addWidget(self.recentTableWidget)
 
@@ -249,15 +284,15 @@ class Ui_SynHubSoftUi(object):
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.pushButton_3 = QPushButton(self.centralwidget)
-        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.openPushButton = QPushButton(self.centralwidget)
+        self.openPushButton.setObjectName(u"openPushButton")
 
-        self.horizontalLayout_3.addWidget(self.pushButton_3)
+        self.horizontalLayout_3.addWidget(self.openPushButton)
 
-        self.pushButton_4 = QPushButton(self.centralwidget)
-        self.pushButton_4.setObjectName(u"pushButton_4")
+        self.saveAsButton = QPushButton(self.centralwidget)
+        self.saveAsButton.setObjectName(u"saveAsButton")
 
-        self.horizontalLayout_3.addWidget(self.pushButton_4)
+        self.horizontalLayout_3.addWidget(self.saveAsButton)
 
 
         self.gridLayout_2.addLayout(self.horizontalLayout_3, 3, 3, 1, 2)
@@ -291,8 +326,24 @@ class Ui_SynHubSoftUi(object):
         self.pushButtonSettings.setText("")
         self.groupBox.setTitle("")
         self.label.setText(QCoreApplication.translate("SynHubSoftUi", u"task", None))
+        ___qtablewidgetitem = self.workTableWidget.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("SynHubSoftUi", u"Name", None));
+        ___qtablewidgetitem1 = self.workTableWidget.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("SynHubSoftUi", u"User", None));
+        ___qtablewidgetitem2 = self.workTableWidget.horizontalHeaderItem(2)
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("SynHubSoftUi", u"Last Modified", None));
+        ___qtablewidgetitem3 = self.workTableWidget.horizontalHeaderItem(3)
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("SynHubSoftUi", u"File Size", None));
         self.pushButton.setText(QCoreApplication.translate("SynHubSoftUi", u"refresh", None))
         self.versionTypeTabWidget.setTabText(self.versionTypeTabWidget.indexOf(self.workTab), QCoreApplication.translate("SynHubSoftUi", u"Work", None))
+        ___qtablewidgetitem4 = self.publishTableWidget.horizontalHeaderItem(0)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("SynHubSoftUi", u"Name", None));
+        ___qtablewidgetitem5 = self.publishTableWidget.horizontalHeaderItem(1)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("SynHubSoftUi", u"User", None));
+        ___qtablewidgetitem6 = self.publishTableWidget.horizontalHeaderItem(2)
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("SynHubSoftUi", u"Last Modified", None));
+        ___qtablewidgetitem7 = self.publishTableWidget.horizontalHeaderItem(3)
+        ___qtablewidgetitem7.setText(QCoreApplication.translate("SynHubSoftUi", u"File Size", None));
         self.pushButton_2.setText(QCoreApplication.translate("SynHubSoftUi", u"refresh", None))
         self.versionTypeTabWidget.setTabText(self.versionTypeTabWidget.indexOf(self.publishTab), QCoreApplication.translate("SynHubSoftUi", u"Publish", None))
         self.label_2.setText(QCoreApplication.translate("SynHubSoftUi", u"variant", None))
@@ -301,7 +352,7 @@ class Ui_SynHubSoftUi(object):
         self.entitytab.setTabText(self.entitytab.indexOf(self.recentTab), QCoreApplication.translate("SynHubSoftUi", u"Recents", None))
         self.label_3.setText(QCoreApplication.translate("SynHubSoftUi", u"Path:", None))
         self.label_4.setText(QCoreApplication.translate("SynHubSoftUi", u"TextLabel", None))
-        self.pushButton_3.setText(QCoreApplication.translate("SynHubSoftUi", u"Open", None))
-        self.pushButton_4.setText(QCoreApplication.translate("SynHubSoftUi", u"Save As", None))
+        self.openPushButton.setText(QCoreApplication.translate("SynHubSoftUi", u"Open", None))
+        self.saveAsButton.setText(QCoreApplication.translate("SynHubSoftUi", u"Save As", None))
     # retranslateUi
 
