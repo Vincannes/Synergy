@@ -20,10 +20,7 @@ class Projects(object):
         self._pfs_path = pfs
 
         self._pw = None
-        self._task = None
-        self._shot = None
         self._project = None
-        self._sequence = None
         self._project_path = None
 
     @property
@@ -49,30 +46,28 @@ class Projects(object):
 
         return sequences
 
-    def get_shots(self):
+    def get_shots(self, sequence):
         if not self._project:
             raise NoProjectSetError()
 
-        if not self._sequence:
+        if not sequence:
             raise NoSequenceSetError()
 
-        _sequences_dir = self._pw.get_sequence_path(
-            self._sequence
-        )
+        _sequences_dir = self._pw.get_sequence_path(sequence)
         shots = self.disk_wrapper.list_dir(_sequences_dir)
         if not shots:
-            raise NoShotsFoundError(self._sequence)
+            raise NoShotsFoundError(sequence)
         return shots
 
-    def get_tasks(self, shot):
+    def get_tasks(self, sequence, shot):
         if not self._project:
             raise NoProjectSetError()
 
-        if not self._sequence:
+        if not sequence:
             raise NoSequenceSetError()
 
         _shot_dir = self._pw.get_shot_path(
-            self._sequence,
+            sequence,
             shot
         )
         tasks = self.disk_wrapper.list_dir(_shot_dir)
@@ -80,23 +75,23 @@ class Projects(object):
             raise NoTasksFoundError(_shot_dir)
         return tasks
 
-    def get_variants(self, shot, task):
+    def get_variants(self, sequence, shot, task):
         """ TODO
         """
         if not self._project:
             raise NoProjectSetError()
 
-        if not self._sequence:
+        if not sequence:
             raise NoSequenceSetError()
 
         _task_dir = self._pw.get_task_path(
-            self._sequence,
+            sequence,
             shot,
             task
         )
 
         fields = {
-            "Sequence": self._sequence,
+            "Sequence": sequence,
             "Shot": shot,
             "Task": task,
             "name": shot,
@@ -107,22 +102,22 @@ class Projects(object):
             _variants.append(_fields.get("variant"))
         return list(set(_variants))
 
-    def get_versions(self, shot, task, variant):
+    def get_versions(self, sequence, shot, task, variant):
         """ TODO
         """
         if not self._project:
             raise NoProjectSetError()
 
-        if not self._sequence:
+        if not sequence:
             raise NoSequenceSetError()
 
         _task_dir = self._pw.get_task_path(
-            self._sequence,
+            sequence,
             shot,
             task
         )
         fields = {
-            "Sequence": self._sequence,
+            "Sequence": sequence,
             "Shot": shot,
             "Task": task,
             "name": shot,
@@ -134,19 +129,18 @@ class Projects(object):
             _versions.append(_fields.get("version"))
         return list(set(_versions))
 
+    def get_nuke_scenes(self, sequence, shot, task, variant):
+        return self._pw.get_nuke_scenes(
+            sequence=sequence,
+            shot=shot,
+            task=task,
+            variant=variant
+        )
+
     def set_project(self, project):
         self._project = project
         self._project_path = os.path.join(self._pfs_path, project)
         self._pw = self.path_wrapper(self._project_path)
-
-    def set_sequence(self, sequence):
-        self._sequence = sequence
-
-    def set_shot(self, shot):
-        self._shot = shot
-
-    def set_task(self, task):
-        self._task = task
 
 
 if __name__ == '__main__':
@@ -154,8 +148,6 @@ if __name__ == '__main__':
 
     path = Projects("D:\Desk\python\Projects")
     path.set_project("autre_name")
-    path.set_sequence("seq")
-    path.set_shot("seq_010")
     pprint(path.get_variants("seq_010", "cmp"))
     pprint(path.get_versions("seq_010", "cmp", "test"))
 

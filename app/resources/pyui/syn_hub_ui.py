@@ -18,7 +18,7 @@ class Ui_SynHubUi(object):
     def setupUi(self, SynHubUi):
         if not SynHubUi.objectName():
             SynHubUi.setObjectName(u"SynHubUi")
-        SynHubUi.resize(1000, 700)
+        SynHubUi.resize(1011, 743)
         SynHubUi.setMinimumSize(QSize(1000, 700))
         icon = QIcon()
         icon.addFile(u":/images/uHub_icon.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -63,6 +63,12 @@ class Ui_SynHubUi(object):
 
 
         self.gridLayout_2.addLayout(self.verticalLayout_3, 0, 3, 1, 1)
+
+        self.labelInfo = QLabel(self.centralwidget)
+        self.labelInfo.setObjectName(u"labelInfo")
+        self.labelInfo.setMaximumSize(QSize(16777215, 30))
+
+        self.gridLayout_2.addWidget(self.labelInfo, 2, 0, 1, 1)
 
         self.groupBox = QGroupBox(self.centralwidget)
         self.groupBox.setObjectName(u"groupBox")
@@ -266,16 +272,15 @@ class Ui_SynHubUi(object):
 
         self.gridLayout_2.addWidget(self.groupBox, 1, 0, 1, 4)
 
-        self.labelInfo = QLabel(self.centralwidget)
-        self.labelInfo.setObjectName(u"labelInfo")
-        self.labelInfo.setMaximumSize(QSize(16777215, 30))
+        self.customLabel = QLabel(self.centralwidget)
+        self.customLabel.setObjectName(u"customLabel")
 
-        self.gridLayout_2.addWidget(self.labelInfo, 2, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.customLabel, 3, 0, 1, 1)
 
         SynHubUi.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(SynHubUi)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1000, 21))
+        self.menubar.setGeometry(QRect(0, 0, 1011, 21))
         SynHubUi.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(SynHubUi)
         self.statusbar.setObjectName(u"statusbar")
@@ -291,6 +296,7 @@ class Ui_SynHubUi(object):
         self.label_image.setText("")
         self.labelStudio.setText(QCoreApplication.translate("SynHubUi", u"| Studio", None))
         self.pushButtonSettings.setText("")
+        self.labelInfo.setText("")
         self.groupBox.setTitle(QCoreApplication.translate("SynHubUi", u"Projects", None))
 #if QT_CONFIG(tooltip)
         self.projectsCb.setToolTip(QCoreApplication.translate("SynHubUi", u"Recent Jobs List", None))
@@ -313,6 +319,6 @@ class Ui_SynHubUi(object):
         self.soft_5.setText("")
         self.soft_6.setText("")
         self.soft_7.setText(QCoreApplication.translate("SynHubUi", u"PushButton", None))
-        self.labelInfo.setText("")
+        self.customLabel.setText("")
     # retranslateUi
 

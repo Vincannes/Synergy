@@ -9,7 +9,7 @@ from app.syhub.core import constants as cst
 
 
 def create_log(name="Syngergy"):
-    _login_info = logging.DEBUG if eval(os.environ.get(cst.Variables.SYN_DEBUG)) else logging.INFO
+    _login_info = logging.DEBUG if os.environ.get(cst.Variables.SYN_DEBUG, 0) else logging.INFO
 
     logger = logging.getLogger(name)
     logger.setLevel(_login_info)

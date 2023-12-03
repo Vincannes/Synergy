@@ -20,7 +20,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         super(Synergy, self).__init__()
         self.setupUi(self)
 
-        self._logger = create_log(__file__)
+        self._logger = create_log()
 
         self.shot = None
         self.task = None
@@ -86,7 +86,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         self.soft_1.clicked.connect(lambda: self.launch_app("launcher.nuke()"))
         self.soft_1.setContextMenuPolicy(QtCore.Qt.ActionsContextMenu)
         self.action_nuke = QtWidgets.QAction('Nuke', None)
-        self.action_nuke.triggered.connect(lambda: self.launch_app("launcher.nuke('--nuke')"))
+        self.action_nuke.triggered.connect(lambda: self.launch_app("launcher.nuke()"))
         self.soft_1.addAction(self.action_nuke)
         self.action_nuke_x = QtWidgets.QAction('NukeX', None)
         self.action_nuke_x.triggered.connect(lambda: self.launch_app("launcher.nuke('--nukex')"))
@@ -119,6 +119,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         self.soft_7.clicked.connect(lambda: self.launch_app(""))
 
     def launch_app(self, proc):
+        self.customLabel.setText("Lauching Nuke ..")
         eval(proc)
 
     def open_datamanager(self):
@@ -149,10 +150,9 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
             return
         sequence = str(item.text())
         self.sequence = sequence
-        self._project.set_sequence(sequence)
         self.shotAdd.setEnabled(True)
         self.listWidgetShots.clear()
-        self.listWidgetShots.addItems(self._project.get_shots())
+        self.listWidgetShots.addItems(self._project.get_shots(sequence))
 
     def set_shot(self):
         item = self.listWidgetShots.currentItem()
@@ -161,7 +161,6 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
             return
 
         self.shot = str(item.text())
-        self._project.set_shot(self.shot)
         self.pbValidate.setEnabled(True)
 
     def validate(self):
@@ -188,7 +187,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         self.labelInfo.setText(msg)
 
     def set_variables(self):
-        pass
+        os.environ[cst.Variables.SYN_PROJECT_NAME] = self.project
 
     def unset_variables(self):
         pass

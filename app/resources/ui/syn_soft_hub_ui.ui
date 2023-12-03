@@ -146,6 +146,9 @@
        </item>
        <item row="2" column="2" colspan="2">
         <widget class="QTabWidget" name="versionTypeTabWidget">
+         <property name="styleSheet">
+          <string notr="true">QTableWidget::item { padding: 10px }</string>
+         </property>
          <property name="currentIndex">
           <number>0</number>
          </property>
@@ -171,6 +174,9 @@
            </property>
            <item>
             <widget class="QTableWidget" name="workTableWidget">
+             <property name="styleSheet">
+              <string notr="true">QTableWidget::item { padding: 10px }</string>
+             </property>
              <property name="editTriggers">
               <set>QAbstractItemView::NoEditTriggers</set>
              </property>
@@ -204,6 +210,26 @@
              <attribute name="verticalHeaderVisible">
               <bool>false</bool>
              </attribute>
+             <column>
+              <property name="text">
+               <string>Name</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>User</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Last Modified</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>File Size</string>
+              </property>
+             </column>
             </widget>
            </item>
            <item>
@@ -254,6 +280,9 @@
            </property>
            <item>
             <widget class="QTableWidget" name="publishTableWidget">
+             <property name="styleSheet">
+              <string notr="true">QTableWidget::item { padding: 10px }</string>
+             </property>
              <property name="editTriggers">
               <set>QAbstractItemView::NoEditTriggers</set>
              </property>
@@ -287,6 +316,26 @@
              <attribute name="verticalHeaderVisible">
               <bool>false</bool>
              </attribute>
+             <column>
+              <property name="text">
+               <string>Name</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>User</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Last Modified</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>File Size</string>
+              </property>
+             </column>
             </widget>
            </item>
            <item>
@@ -360,7 +409,16 @@
             <widget class="QLineEdit" name="assetFilterEdit"/>
            </item>
            <item>
-            <widget class="QTableWidget" name="assetTableWidget"/>
+            <widget class="QTableWidget" name="assetTableWidget">
+             <property name="styleSheet">
+              <string notr="true">QTableWidget::item { padding: 8px }</string>
+             </property>
+             <property name="columnCount">
+              <number>2</number>
+             </property>
+             <column/>
+             <column/>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -373,7 +431,16 @@
             <widget class="QLineEdit" name="shotFilterEdit"/>
            </item>
            <item>
-            <widget class="QTableWidget" name="shotTableWidget"/>
+            <widget class="QTableWidget" name="shotTableWidget">
+             <property name="styleSheet">
+              <string notr="true">QTableWidget::item { padding: 8px }</string>
+             </property>
+             <property name="columnCount">
+              <number>2</number>
+             </property>
+             <column/>
+             <column/>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -383,10 +450,19 @@
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QLineEdit" name="recebtFilterEdit"/>
+            <widget class="QLineEdit" name="recentFilterEdit"/>
            </item>
            <item>
-            <widget class="QTableWidget" name="recentTableWidget"/>
+            <widget class="QTableWidget" name="recentTableWidget">
+             <property name="styleSheet">
+              <string notr="true">QTableWidget::item { padding: 8px }</string>
+             </property>
+             <property name="columnCount">
+              <number>2</number>
+             </property>
+             <column/>
+             <column/>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -416,14 +492,14 @@
     <item row="3" column="3" colspan="2">
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="openPushButton">
         <property name="text">
          <string>Open</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="saveAsButton">
         <property name="text">
          <string>Save As</string>
         </property>

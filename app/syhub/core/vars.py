@@ -28,6 +28,7 @@ def set_vars():
     # DEBUG MODE
     os.environ[cst.Variables.SYN_DEBUG] = "0"
 
+    dcc_env()
     append_to_env()
 
 
@@ -38,3 +39,18 @@ def set_var(var_name, value):
 def append_to_env():
     sys.path.append(os.environ.get(cst.Variables.SYN_ROOT_PATH))
     sys.path.append(os.environ.get(cst.Variables.SYN_ROOT_APP_PATH))
+
+
+def dcc_env():
+    os.environ[cst.CGFolderPath.SYN_APP_PATHS_FILE] = 'app_paths.ini'
+
+    os.environ[cst.CGFolderPath.SYN_APP_PATHS] = os.path.join(
+        os.environ.get(cst.Variables.SYN_ROOT_CONFIG_PATH),
+        os.environ.get(cst.CGFolderPath.SYN_APP_PATHS_FILE)
+    )  # Synergy/app/configs/app_paths.ini
+
+    # nuke
+    os.environ[cst.CGFolderPath.SYN_NUKE_PATH] = os.path.join(
+        os.path.dirname(THIS_DIR),
+        "cg", "nuke"
+    )  # Synergy/app/syhub/cg/nuke

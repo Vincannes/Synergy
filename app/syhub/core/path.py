@@ -67,6 +67,17 @@ class Path(object):
         }
         return self._tk.build_path_from_template(template, fields)
 
+    def get_nuke_scenes(self, sequence, shot, task, variant):
+        template = self._tk.get_template(self.TPL_NUKE_SCENE)
+        fields = {
+            "Sequence": sequence,
+            "Shot": shot,
+            "name": shot,
+            "Task": task,
+            "variant": variant,
+        }
+        return self._tk.get_abstract_path(template, fields)
+
     def get_sequence_dir(self):
         template = self._tk.get_template(self.TPL_NAME_SEQUENCE)
         sequence = self._tk.build_path_from_template(
