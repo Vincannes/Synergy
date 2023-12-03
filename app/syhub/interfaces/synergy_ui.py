@@ -119,7 +119,8 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         self.soft_7.clicked.connect(lambda: self.launch_app(""))
 
     def launch_app(self, proc):
-        self.customLabel.setText("Lauching Nuke ..")
+        engine = proc.split("(")[0].split(".")[-1]
+        self.customLabel.setText(f"Lauching {engine} ..")
         eval(proc)
 
     def open_datamanager(self):

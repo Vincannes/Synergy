@@ -129,13 +129,22 @@ class Projects(object):
             _versions.append(_fields.get("version"))
         return list(set(_versions))
 
-    def get_nuke_scenes(self, sequence, shot, task, variant):
-        return self._pw.get_nuke_scenes(
-            sequence=sequence,
-            shot=shot,
-            task=task,
-            variant=variant
-        )
+    def get_nuke_scenes(self, sequence, shot, task, variant, published=False):
+        if published:
+            _paths = self._pw.get_nuke_publish_scenes(
+                sequence=sequence,
+                shot=shot,
+                task=task,
+                variant=variant
+            )
+        else:
+            _paths = self._pw.get_nuke_work_scenes(
+                sequence=sequence,
+                shot=shot,
+                task=task,
+                variant=variant
+            )
+        return _paths
 
     def set_project(self, project):
         self._project = project

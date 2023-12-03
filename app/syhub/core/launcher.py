@@ -28,6 +28,7 @@ def nuke(flag=""):
     os.environ[cst.CGFolderPath.NUKE_PATH] = os.environ.get(
         cst.CGFolderPath.SYN_NUKE_PATH
     )
+
     # os.environ['UHUB_NUKE_VERSION'] = "13.3"
     version = "nuke13.0v1"
     chemin = configHandler.get_dcc_path("nuke").get(version)
@@ -35,8 +36,19 @@ def nuke(flag=""):
     subprocess.Popen(f'"{chemin}" {flag}', shell=True)
 
 
-def maya(flag=""):
-    print("flag", flag)
+def maya():
+    configHandler = ConfigFiles(
+        os.environ.get(cst.CGFolderPath.SYN_APP_PATHS)
+    )
+
+    # os.environ[cst.CGFolderPath.NUKE_PATH] = os.environ.get(
+    #     cst.CGFolderPath.SYN_NUKE_PATH
+    # )
+
+    version = "maya2024"
+    chemin = configHandler.get_dcc_path("maya").get(version)
+    LOGGER.info(f'Maya: "{chemin}"')
+    subprocess.Popen(f'"{chemin}"', shell=True)
 
 
 def houdini(flag=""):

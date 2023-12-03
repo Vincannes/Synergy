@@ -583,6 +583,7 @@ paths:
     # The location of WIP script files
     # from  Anim
     Shot_NukeScene_Work:                '@Shot_NukeScene_WorkArea/@generic_version_name.nk'
+    Shot_NukeScene_Publish:             '@Shot_NukeScene_PublishArea/@generic_version_name.nk'
     # from Shotgun
     # nuke_shot_work_render:              '@Shot_NukeScene_WorkArea/renders/@generic_version_name_{render_iteration}.nk'
     # The location of backups of WIP files

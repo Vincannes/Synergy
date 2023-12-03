@@ -112,8 +112,12 @@ class SynSoftHub(QtWidgets.QMainWindow, Ui_SynHubSoftUi):
             self._fill_task(item_0, item_1)
 
     def open_scene(self):
-        row = self.workTableWidget.currentRow()
-        item = self.workTableWidget.item(row, 3)
+        tab_widget = self.versionTypeTabWidget.currentWidget()
+        widget = tab_widget.findChild(QtWidgets.QTableWidget)
+
+        row = widget.currentRow()
+        item = widget.item(row, 3)
+
         if not item:
             return
         scene_path = item.data(1)
@@ -160,11 +164,31 @@ class SynSoftHub(QtWidgets.QMainWindow, Ui_SynHubSoftUi):
         widget.resizeColumnsToContents()
 
     def _build_work(self, seq, shot):
+        """ Build WorkTable Widget.
+            All paths from work (not published)
+        Args:
+            seq: sequence name
+            shot: shot name
+        """
         self.workTableWidget.clear()
         task = self.taskComboBox.currentText()
         variant = self.variantComboBox.currentText()
         paths = self._project.get_nuke_scenes(seq, shot, task, variant)
         self.__build_table_widget(self.workTableWidget, paths)
+        self._build_publish(seq, shot)
+
+    def _build_publish(self, seq, shot):
+        """ Build WorkTable Widget.
+            All paths from work (not published)
+        Args:
+            seq: sequence name
+            shot: shot name
+        """
+        self.publishTableWidget.clear()
+        task = self.taskComboBox.currentText()
+        variant = self.variantComboBox.currentText()
+        paths = self._project.get_nuke_scenes(seq, shot, task, variant, published=True)
+        self.__build_table_widget(self.publishTableWidget, paths)
 
     def __build_table_widget(self, widget, paths):
         """ Build UI for Work and Publish assets Table.
@@ -232,9 +256,9 @@ class SynSoftHub(QtWidgets.QMainWindow, Ui_SynHubSoftUi):
 if __name__ == '__main__':
     import sys
 
-    os.environ["SYN_PROJECT_NAME"] = "autre_name"
+    os.environ["PROD"] = "autre_name"
     os.environ["SYN_PROJECT_FILE_STRUCTURE"] = "D:\\Desk\\python\\Projects"
     app = QtWidgets.QApplication(sys.argv)
-    w = SynSoftHub()
+    w = SynSoftHub("nuke")
     w.show()
     sys.exit(app.exec_())
