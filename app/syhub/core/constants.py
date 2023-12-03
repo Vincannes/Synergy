@@ -37,5 +37,8 @@ class CGFolderPath(object):
     NUKE_PATH = "NUKE_PATH"
     SYN_NUKE_PATH = "SYN_NUKE_PATH"
 
+    # maya
+    SYN_MAYA_PATH = "SYN_NUKE_PATH"
+
 
 SKIP_TASKS_UI = ["common"]

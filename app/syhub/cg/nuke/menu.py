@@ -3,10 +3,9 @@
 # copyright	:Vincannes
 import os
 import nuke
-# from PySide2.
 
 from app.syhub import main
-# from app.syhub.cg.scripts import custom_save
+
 
 NUKE_MENU = nuke.menu("Nuke")
 
@@ -22,6 +21,6 @@ def prod_menu():
 # Override Ctrl+S
 fileMenu = nuke.menu('Nuke').findItem('File')
 fileMenu.addCommand("&Save", "custom_save.customSave(nuke.root().name())", "Ctrl+S")
-print("lalalalal")
+
 prod_menu()
 main.run_dcc()

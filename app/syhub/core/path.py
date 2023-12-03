@@ -17,9 +17,12 @@ class Path(object):
     TPL_NAME_SHOT = "shot_root"
     TPL_NAME_TASK = "shot_task_root"
     TPL_NAME_SEQUENCE = "sequence_root"
-    TPL_NUKE_SCENE = "Shot_NukeScene_Work"
-    TPL_MAYA_SCENE = "Shot_MayaScene_Work"
-    TPL_HOUDINI_SCENE = "Shot_HoudiniScene_Work"
+    TPL_NUKE_SCENE_WORK = "Shot_NukeScene_Work"
+    TPL_NUKE_SCENE_PUBLISH = "Shot_NukeScene_Publish"
+    TPL_MAYA_SCENE_WORK = "Shot_MayaScene_Work"
+    TPL_MAYA_SCENE_PUBLISH = "Shot_MayaScene_Publish"
+    TPL_HOUDINI_SCENE_WORK = "Shot_HoudiniScene_Work"
+    TPL_HOUDINI_SCENE_PUBLISH = "Shot_HoudiniScene_Publish"
 
     def __init__(self, project_path):
         self._project_path = project_path
@@ -44,31 +47,30 @@ class Path(object):
             fields = {}
         template_name = ""
         if engine == cst.Engine.NUKE:
-            template_name = self.TPL_NUKE_SCENE
+            template_name = self.TPL_NUKE_SCENE_WORK
         elif engine == cst.Engine.MAYA:
-            template_name = self.TPL_MAYA_SCENE
+            template_name = self.TPL_MAYA_SCENE_WORK
         elif engine == cst.Engine.HOUDINI:
-            template_name = self.TPL_HOUDINI_SCENE
+            template_name = self.TPL_HOUDINI_SCENE_WORK
 
         if not template_name:
             raise ValueError(f"No engine found: {[cst.Engine.NUKE, cst.Engine.MAYA, cst.Engine.HOUDINI]}")
 
         return self.get_abstract_path(template_name, fields)
 
-    def get_nuke_scene(self, sequence, shot, task, variant, version):
-        template = self._tk.get_template(self.TPL_NUKE_SCENE)
+    def get_nuke_publish_scenes(self, sequence, shot, task, variant):
+        template = self._tk.get_template(self.TPL_NUKE_SCENE_PUBLISH)
         fields = {
             "Sequence": sequence,
             "Shot": shot,
             "name": shot,
             "Task": task,
             "variant": variant,
-            "version": version
         }
-        return self._tk.build_path_from_template(template, fields)
+        return self._tk.get_abstract_path(template, fields)
 
-    def get_nuke_scenes(self, sequence, shot, task, variant):
-        template = self._tk.get_template(self.TPL_NUKE_SCENE)
+    def get_nuke_work_scenes(self, sequence, shot, task, variant):
+        template = self._tk.get_template(self.TPL_NUKE_SCENE_WORK)
         fields = {
             "Sequence": sequence,
             "Shot": shot,

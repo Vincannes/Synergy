@@ -157,7 +157,7 @@ class Ui_SynHubSoftUi(object):
         self.publishTableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.publishTableWidget.setShowGrid(True)
         self.publishTableWidget.setSortingEnabled(True)
-        self.publishTableWidget.horizontalHeader().setVisible(False)
+        self.publishTableWidget.horizontalHeader().setVisible(True)
         self.publishTableWidget.horizontalHeader().setDefaultSectionSize(120)
         self.publishTableWidget.horizontalHeader().setProperty("showSortIndicator", True)
         self.publishTableWidget.horizontalHeader().setStretchLastSection(True)
