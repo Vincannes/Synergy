@@ -25,3 +25,7 @@ class AbsDccWrapper(ABC):
     @staticmethod
     def message(msg):
         NotImplementedError
+
+    @staticmethod
+    def get_current_scene():
+        NotImplementedError

@@ -23,4 +23,6 @@ fileMenu = nuke.menu('Nuke').findItem('File')
 fileMenu.addCommand("&Save", "custom_save.customSave(nuke.root().name())", "Ctrl+S")
 
 prod_menu()
+
+# run syn_hub at opening
 main.run_dcc()

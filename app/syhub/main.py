@@ -8,6 +8,8 @@ from pprint import pprint
 
 from PySide2 import QtWidgets, QtCore
 
+print(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from app.syhub.core import constants
@@ -26,6 +28,11 @@ def run():
 
 
 def run_dcc():
+    import importlib
+    from app.syhub.interfaces import synergy_soft_ui
+    importlib.reload(synergy_soft_ui)
+    from app.syhub.interfaces.synergy_soft_ui import SynSoftHub
+
     # app = QtWidgets.QApplication(sys.argv)
     # style.dark(app)
     w = SynSoftHub(engine=constants.Engine.NUKE)

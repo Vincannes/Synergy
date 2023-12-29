@@ -30,7 +30,9 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         self.sequence = None
         self.validated_status = False
 
-        self._project = Projects(os.environ.get(cst.Variables.SYN_PROJECT_FILE_STRUCTURE))
+        self._project = Projects(
+            os.environ.get(cst.Variables.SYN_PROJECT_FILE_STRUCTURE)
+        )
 
         self.update_ui()
         self.set_connections()
@@ -107,7 +109,7 @@ class Synergy(QtWidgets.QMainWindow, Ui_SynHubUi):
         self.soft_3.setContextMenuPolicy(QtCore.Qt.ActionsContextMenu)
 
         # Golaem
-        self.soft_4.clicked.connect(lambda: self.launch_app("launcher.golaem()"))
+        self.soft_4.clicked.connect(lambda: self.launch_app("launcher.c4d()"))
 
         #
         self.soft_5.clicked.connect(lambda: self.launch_app(""))

@@ -40,10 +40,12 @@ def maya():
     configHandler = ConfigFiles(
         os.environ.get(cst.CGFolderPath.SYN_APP_PATHS)
     )
-
-    # os.environ[cst.CGFolderPath.NUKE_PATH] = os.environ.get(
-    #     cst.CGFolderPath.SYN_NUKE_PATH
-    # )
+    os.environ[cst.Variables.PYTHON_PATH] = os.environ.get(
+        cst.Variables.SYN_ROOT_PATH
+    )
+    os.environ[cst.Variables.PYTHON_PATH] = os.environ.get(
+        cst.CGFolderPath.SYN_MAYA_PATH
+    )
 
     version = "maya2024"
     chemin = configHandler.get_dcc_path("maya").get(version)
@@ -57,3 +59,15 @@ def houdini(flag=""):
 
 def golaem(flag=""):
     print("flag", flag)
+
+
+def c4d(flag=""):
+    configHandler = ConfigFiles(
+        os.environ.get(cst.CGFolderPath.SYN_APP_PATHS)
+    )
+
+    version = "cinema4d.r25"
+    chemin = configHandler.get_dcc_path("cinema4d").get(version)
+    print(chemin)
+    LOGGER.info(f'Cinema4D: "{chemin}"')
+    subprocess.Popen(f'"{chemin}"', shell=True)

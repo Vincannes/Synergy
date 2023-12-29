@@ -1,6 +1,8 @@
 <RCC>
   <qresource prefix="/">
     <file>images/app_icon_houdini.png</file>
+    <file>images/app_icon_c4d.png</file>
+    <file>images/app_icon_c4d_disabled.png</file>
     <file>images/app_icon_houdini_disabled.png</file>
     <file>images/app_icon_maya.png</file>
     <file>images/app_icon_maya_disabled.png</file>
