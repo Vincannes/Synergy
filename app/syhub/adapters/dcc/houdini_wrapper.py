@@ -14,3 +14,7 @@ class HoudiniWrapper(AbsDccWrapper):
     @staticmethod
     def save(self):
         houdini.scriptSave()
+
+    @staticmethod
+    def get_current_scene():
+        return

@@ -26,3 +26,7 @@ class NukeWrapper(AbsDccWrapper):
     @staticmethod
     def message(msg):
         nuke.message(msg)
+
+    @staticmethod
+    def get_current_scene():
+        nuke.root().name()

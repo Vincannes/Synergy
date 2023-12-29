@@ -32,7 +32,15 @@ class Projects(object):
         return self._project_path
 
     def get_projects(self):
-        return self.disk_wrapper.list_dir(self._pfs_path)
+        _projects = []
+        for _proj in self.disk_wrapper.list_dir(self._pfs_path):
+            _proj_path = os.path.join(
+                self._pfs_path, _proj
+            )
+            if not self.disk_wrapper.is_dir(_proj_path):
+                continue
+            _projects.append(_proj)
+        return sorted(_projects)
 
     def get_sequences(self):
         if not self._project:

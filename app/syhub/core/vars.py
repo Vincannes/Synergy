@@ -54,3 +54,9 @@ def dcc_env():
         os.path.dirname(THIS_DIR),
         "cg", "nuke"
     )  # Synergy/app/syhub/cg/nuke
+
+    # maya
+    os.environ[cst.CGFolderPath.SYN_MAYA_PATH] = os.path.join(
+        os.path.dirname(THIS_DIR),
+        "cg", "maya"
+    )  # Synergy/app/syhub/cg/maya

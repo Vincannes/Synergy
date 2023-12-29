@@ -6,7 +6,7 @@ import os
 
 class Variables(object):
     CONFIG_PATH = "CONFIG_PATH"
-    PYTHON_PATH = "PYTHON_PATH"
+    PYTHON_PATH = "PYTHONPATH"
     SYN_DEBUG = "SYN_DEBUG"
     SYN_PROJECT_NAME = "PROD"
     SYN_PROJECT_ROOT_DIR = "SYN_PROJECT_ROOT_DIR"
@@ -39,6 +39,10 @@ class CGFolderPath(object):
 
     # maya
     SYN_MAYA_PATH = "SYN_NUKE_PATH"
+    MAYA_APP_DIR = "MAYA_APP_DIR"
+
+    # c4d
+    SYN_C4D_PATH = ""
 
 
 SKIP_TASKS_UI = ["common"]

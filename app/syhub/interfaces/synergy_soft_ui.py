@@ -6,12 +6,15 @@ import os
 from pprint import pprint
 from PySide2 import QtWidgets, QtGui, QtCore
 
-from app.syhub.adapters.disk_wrapper import DiskWrapper
-from app.syhub.core import launcher
+import importlib
+from app.resources.pyui import syn_soft_hub_ui
+importlib.reload(syn_soft_hub_ui)
+
 from app.syhub.core.logger import create_log
 from app.syhub.core import constants as cst
 from app.syhub.core.projects import Projects
 from app.syhub.core.exceptions import NoEngineSet
+from app.syhub.adapters.disk_wrapper import DiskWrapper
 from app.resources.pyui.syn_soft_hub_ui import Ui_SynHubSoftUi
 
 
@@ -48,6 +51,8 @@ class SynSoftHub(QtWidgets.QMainWindow, Ui_SynHubSoftUi):
         """
         for seq in self._project.get_sequences():
             self._shots_data[seq] = self._project.get_shots(seq)
+            # self._recents_data[seq] = self._project.get_shots(seq)
+            # self._assets_data[seq] = self._project.get_shots(seq)
 
     def build_ui(self):
         self.entitytab.setCurrentWidget(self.shotTab)
@@ -112,6 +117,8 @@ class SynSoftHub(QtWidgets.QMainWindow, Ui_SynHubSoftUi):
             self._fill_task(item_0, item_1)
 
     def open_scene(self):
+        """ Open selected scene path in DCC and close this window.
+        """
         tab_widget = self.versionTypeTabWidget.currentWidget()
         widget = tab_widget.findChild(QtWidgets.QTableWidget)
 
